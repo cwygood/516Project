@@ -1,0 +1,25 @@
+{
+  "OwmsMappings": {
+    "Scheme": "http",
+    "Routes": [
+      {
+        "WarehouseCode": "uswe",
+        "Host": "test-owms-uswe.eminxing.com",
+        "AppId": "agv_test",
+        "AppKey": "rhnCrgzzxRFATjbA"
+      },
+      {
+        "WarehouseCode": "usea",
+        "Host": "test-owms-usea.eminxing.com",
+        "AppId": "agv_dev",
+        "AppKey": "rGSSrrdfzxopklrD"
+      },
+      {
+        "WarehouseCode": "uk",
+        "Host": "test-owms-uk.eminxing.com",
+        "AppId": "",
+        "AppKey": ""
+      }
+    ]
+  }
+}
