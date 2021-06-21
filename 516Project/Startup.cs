@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-namespace _516Project
+namespace Cwy516Project
 {
     public class Startup
     {
@@ -112,6 +112,8 @@ namespace _516Project
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddRabbitMq(Configuration.GetSection("RabbitMq"));
             services.AddCustomerMq();
+            services.AddPollyHttpClient("516Project", Configuration.GetSection("Polly"));
+            
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

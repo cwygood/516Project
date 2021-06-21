@@ -39,6 +39,24 @@ namespace Infrastructure.Common.Cache
         {
             return this.GetConnection().GetSubscriber();
         }
+        public bool SetString(string key, string value, TimeSpan? span = null, string prefix = "")
+        {
+            var curKey = key;
+            if (!string.IsNullOrWhiteSpace(prefix))
+            {
+                curKey = prefix + ":" + key;
+            }
+            return this.GetDatabase().StringSet(curKey, value, span);
+        }
+        public string GetString(string key, string prefix = "")
+        {
+            var curKey = key;
+            if (!string.IsNullOrWhiteSpace(prefix))
+            {
+                curKey = prefix + ":" + key;
+            }
+            return this.GetDatabase().StringGet(curKey);
+        }
 
         public void Dispose()
         {

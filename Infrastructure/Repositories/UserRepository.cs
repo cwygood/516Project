@@ -28,5 +28,10 @@ namespace Infrastructure.Repositories
             //return this.QueryFirstOrDefault<User_Info>(f => f.Id == id);//EF查询
             //return this.QueryFirstOrDefaultAsync<User_Info>("select * from user_info where id=@id", new Dictionary<string, object>() { { "@id", id } });//ADO.net 查询
         }
+
+        public User_Info GetUserInfo(string userCode)
+        {
+            return this.QueryFirstOrDefault<User_Info>("select id,code,name,password,status,locktime from user_info where code=@code", new { code = userCode });
+        }
     }
 }

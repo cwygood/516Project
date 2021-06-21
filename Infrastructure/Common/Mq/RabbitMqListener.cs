@@ -21,7 +21,7 @@ namespace Infrastructure.Common.Mq
         {
             try
             {
-                //rabbitmq网络连接使用的是15672，但是此处连接的端口必须是5672（amqp)
+                //rabbitmq网络连接使用的是15672（http），但是此处连接的端口必须是5672（amqp)
                 var factory = new ConnectionFactory()
                 {
                     HostName = options.CurrentValue.Host,
@@ -35,7 +35,6 @@ namespace Infrastructure.Common.Mq
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"RabbitMqListener Init Fail:{ex.ToString()}");
                 this._logger.LogError(-1, ex, "RabbitMqListener Init Fail");
             }
         }
@@ -48,7 +47,6 @@ namespace Infrastructure.Common.Mq
         public string ExchangeName { get; set; }
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            Console.WriteLine($"RabbitMqListener RouteKey:{RouteKey}");
             this._logger.LogInformation($"RabbitMqListener RouteKey:{RouteKey}");
             this._channel.BasicQos(0, 1, false);
             var consumer = new EventingBasicConsumer(this._channel);
@@ -60,7 +58,6 @@ namespace Infrastructure.Common.Mq
                 var body = eventArgs.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
                 this._logger.LogInformation($"RabbitMqListener Message:{message}");
-                Console.WriteLine($"RabbitMqListener Message:{message}");
                 var result = Process(message);
                 if (result)
                 {

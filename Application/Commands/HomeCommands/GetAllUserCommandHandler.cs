@@ -16,24 +16,27 @@ namespace Application.Commands.HomeCommands
         private readonly IUserRepository _userRepository;
         private readonly IRedisCache _cache;
         private readonly RabbitMqClient _mqClient;
-        public GetAllUserCommandHandler(IUserRepository userRepository, IRedisCache cache, RabbitMqClient mqClient)
+        private readonly IHttpService _httpService;
+        public GetAllUserCommandHandler(IUserRepository userRepository, IRedisCache cache, RabbitMqClient mqClient, IHttpService httpService)
         {
             this._userRepository = userRepository;
             this._cache = cache;
             this._mqClient = mqClient;
+            this._httpService = httpService;
         }
-        public Task<GetAllUserResponseCommand> Handle(GetAllUserRequestCommand request, CancellationToken cancellationToken)
+        public async Task<GetAllUserResponseCommand> Handle(GetAllUserRequestCommand request, CancellationToken cancellationToken)
         {
             var userInfos = this._userRepository.GetAllUser();
             if (!userInfos.Any())
             {
-                return Task.FromResult(new GetAllUserResponseCommand() { Code = "1", IsSuccess = false, Messages = new List<string>() { "查询数据失败！" } });
+                return await Task.FromResult(new GetAllUserResponseCommand() { Code = "1", IsSuccess = false, Messages = new List<string>() { "查询数据失败！" } });
             }
-            this._mqClient.PushMessage("user.test", userInfos, "516project");
-            return Task.FromResult(new GetAllUserResponseCommand()
+            var res = await this._httpService.GetAsync("http://localhost:5100/api/Home/Index");
+            this._mqClient.PushMessage("user.test", userInfos, "516project");//rabbitmq使用
+            return await Task.FromResult(new GetAllUserResponseCommand()
             {
                 RequestId = request.RequestId,
-                Code = "200",
+                Code = "0",
                 IsSuccess = true,
                 Messages = new List<string>() { "成功！" },
                 Data = userInfos

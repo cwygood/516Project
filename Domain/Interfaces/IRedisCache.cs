@@ -10,5 +10,7 @@ namespace Domain.Interfaces
         IDatabase GetDatabase();
         IServer GetServer();
         ISubscriber GetSubscriber();
+        bool SetString(string key, string value, TimeSpan? span = null, string prefix = "");
+        string GetString(string key, string prefix = "");
     }
 }

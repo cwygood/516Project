@@ -18,5 +18,11 @@ namespace Domain.Repositories
         /// <param name="id"></param>
         /// <returns></returns>
         User_Info GetUserById(long id);
+        /// <summary>
+        /// 通过code获取用户信息
+        /// </summary>
+        /// <param name="userCode"></param>
+        /// <returns></returns>
+        User_Info GetUserInfo(string userCode);
     }
 }

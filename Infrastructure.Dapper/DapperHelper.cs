@@ -36,7 +36,7 @@ namespace Infrastructure.Dapper
         }
         public T QueryFirstOrDefault<T>(string sql, object param)
         {
-            return this._context.DbConnection().QueryFirst<T>(sql, param);
+            return this._context.DbConnection().QueryFirstOrDefault<T>(sql, param);
         }
         [Obsolete]
         public IEnumerable<T> QueryAll<T>(string sql, Dictionary<string, object> param)

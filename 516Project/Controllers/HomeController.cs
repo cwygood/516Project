@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace _516Project.Controllers
+namespace Cwy516Project.Controllers
 {
     [ApiController]
     public class HomeController : ControllerBase
@@ -36,6 +36,7 @@ namespace _516Project.Controllers
         [Route("api/Home/Index")]
         public ActionResult<string> Index()
         {
+            System.Threading.Thread.Sleep(1000 * 60);
             this._test.Show();
             this._logger.LogInformation("11111");
             this._cache.GetDatabase().StringSet("TestKey", "Hello");

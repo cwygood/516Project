@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "_516Project": {
+    "Cwy516Project": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
