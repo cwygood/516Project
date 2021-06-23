@@ -14,9 +14,19 @@ namespace Infrastructure.Common.Cache
         private readonly int _defaultDb;
         private readonly ConnectionMultiplexer _multiplexer;
         private readonly string _connectString;
+
+        private readonly Domain.Enums.RedisType _redisType;
+
+        private readonly ConnectionMultiplexer _readMultiplexer;//读库操作对象
+        private readonly ConnectionMultiplexer _writeMultiplexer;//写库操作对象
+        private readonly string _readConnectString;
+        private readonly string _writeConnectString;
+        private readonly int _readDefaultDb;
+        private readonly int _writeDefaultDb;
         public RedisCache(IOptionsMonitor<RedisConfiguration> options)
         {
-            if (options.CurrentValue.ClusterPoints.Count() > 0)
+            this._redisType = options.CurrentValue.RedisType;
+            if (this._redisType == Domain.Enums.RedisType.Cluster && options.CurrentValue.ClusterPoints?.Count() > 0)
             {
                 //Cluster模式
                 var clusterPoints = options.CurrentValue.ClusterPoints;
@@ -37,7 +47,7 @@ namespace Infrastructure.Common.Cache
                 clusterOptions.Password = clusterPoints.FirstOrDefault().Password;
                 this._multiplexer = ConnectionMultiplexer.Connect(clusterOptions);
             }
-            else if (options.CurrentValue.SentinelPoints.Count() > 0)
+            else if (this._redisType == Domain.Enums.RedisType.Sentinel && options.CurrentValue.SentinelPoints?.Count() > 0)
             {
                 //哨兵模式
                 ConfigurationOptions sentinelOptions = new ConfigurationOptions();
@@ -69,6 +79,20 @@ namespace Infrastructure.Common.Cache
 这些设置也可以被IServer.MakeMaster()方法使用，来设置数据库里的tie-breaker以及广播配置更改消息。对于master/slave变化的配置信息也可以通过 ConnectionMultiplexer.PublishReconfigure 方法来请求所有节点刷新配置。
                  */
             }
+            else if (this._redisType == Domain.Enums.RedisType.MasterSlave && options.CurrentValue.MasterSlaves != null)
+            {
+                var master = options.CurrentValue.MasterSlaves.Master;
+                var slave = options.CurrentValue.MasterSlaves.Slaves.FirstOrDefault();//暂时默认取第一个
+                //主库（写库）
+                this._writeConnectString = $"{master.Host}:{master.Port},defaultDatabase={master.DBIndex},password={master.Password}";
+                this._writeMultiplexer = ConnectionMultiplexer.Connect(this._writeConnectString);
+                this._writeDefaultDb = master.DBIndex;
+
+                //从库（读库）
+                this._readConnectString = $"{slave.Host}:{slave.Port},defaultDatabase={slave.DBIndex},password={slave.Password}";
+                this._readMultiplexer = ConnectionMultiplexer.Connect(this._readConnectString);
+                this._readDefaultDb = slave.DBIndex;
+            }
             else
             {
                 var hostConfig = options.CurrentValue.HostConfig;
@@ -82,13 +106,34 @@ namespace Infrastructure.Common.Cache
         /// 获取数据库
         /// </summary>
         /// <returns></returns>
-        public IDatabase GetDatabase()
+        public IDatabase GetDatabase(int type = 0)
         {
+            if (this._redisType == Domain.Enums.RedisType.MasterSlave)
+            {
+                switch (type)
+                {
+                    case 1:
+                        return this._readMultiplexer.GetDatabase(this._readDefaultDb);
+                    case 2:
+                        return this._writeMultiplexer.GetDatabase(this._writeDefaultDb);
+                }
+            }
             return this._multiplexer.GetDatabase(this._defaultDb);
         }
-
-        public IServer GetServer()
+        /// <summary>
+        /// 获取服务器信息
+        /// </summary>
+        /// <param name="type">0：正常redis服务器，1：读库服务器，2：写库服务器</param>
+        /// <returns></returns>
+        public IServer GetServer(int type = 0)
         {
+            switch (type)
+            {
+                case 1:
+                    return this._readMultiplexer.GetServer(this._readConnectString);
+                case 2:
+                    return this._writeMultiplexer.GetServer(this._writeConnectString);
+            }
             return this._multiplexer.GetServer(this._connectString);
         }
 
@@ -103,7 +148,7 @@ namespace Infrastructure.Common.Cache
             {
                 curKey = prefix + ":" + key;
             }
-            return this.GetDatabase().StringSet(curKey, value, span);
+            return this.GetDatabase(2).StringSet(curKey, value, span);
         }
         public string GetString(string key, string prefix = "")
         {
@@ -112,7 +157,7 @@ namespace Infrastructure.Common.Cache
             {
                 curKey = prefix + ":" + key;
             }
-            return this.GetDatabase().StringGet(curKey);
+            return this.GetDatabase(1).StringGet(curKey);
         }
 
         public void Dispose()

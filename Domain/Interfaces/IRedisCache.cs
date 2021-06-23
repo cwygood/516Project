@@ -7,8 +7,8 @@ namespace Domain.Interfaces
 {
     public interface IRedisCache : IDisposable
     {
-        IDatabase GetDatabase();
-        IServer GetServer();
+        IDatabase GetDatabase(int type);
+        IServer GetServer(int type);
         ISubscriber GetSubscriber();
         bool SetString(string key, string value, TimeSpan? span = null, string prefix = "");
         string GetString(string key, string prefix = "");

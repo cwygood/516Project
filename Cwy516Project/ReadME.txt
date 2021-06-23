@@ -7,5 +7,6 @@
 # 集成Polly
 # 集成单元测试：Xunit、Mock
 # 加入VUE前端页面
-# 加入FluentValidation，自定义验证功能
-# 加入Redis哨兵（sentinel）模式、分片（cluster）模式
+# 集成FluentValidation，自定义验证功能
+# 集成Redis哨兵（sentinel）模式、分片（cluster）模式
+# 集成Redis主从模式

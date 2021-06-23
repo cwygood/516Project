@@ -1,10 +1,33 @@
 {
   "Redis": {
+    "RedisType": 1,
     "HostConfig": {
       "Host": "127.0.0.1",
-      "Port": 6379,
+      "Port": 8052,
       "Password": "123456",
       "DbIndex": 0
+    },
+    "MasterSlaves": {
+      "Master": {
+        "Host": "127.0.0.1",
+        "Port": 8051,
+        "Password": "123456",
+        "DbIndex": 0
+      },
+      "Slaves": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 8052,
+          "Password": "123456",
+          "DbIndex": 0
+        },
+        {
+          "Host": "127.0.0.1",
+          "Port": 8053,
+          "Password": "123456",
+          "DbIndex": 0
+        }
+      ]
     },
     "SentinelPoints": [
       {
