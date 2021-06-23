@@ -43,5 +43,14 @@ namespace Infrastructure.Dapper
         {
             throw new NotImplementedException();
         }
+        public bool Excute<T>(string sql, object param)
+        {
+            return this._context.DbConnection().Execute(sql, param) > 0;
+        }
+        [Obsolete]
+        public void Add<T>(T t) where T : class
+        {
+            throw new NotImplementedException();
+        }
     }
 }

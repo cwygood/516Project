@@ -5,9 +5,8 @@ using System.Text;
 
 namespace Domain.Models
 {
-    public class User_Info
+    public class User_Info : BaseModel
     {
-        public long Id { get; set; }
         /// <summary>
         /// 用户登录账户
         /// </summary>

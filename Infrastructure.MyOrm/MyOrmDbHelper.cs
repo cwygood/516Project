@@ -15,6 +15,17 @@ namespace Infrastructure.MyOrm
         {
             this._context = context;
         }
+        [Obsolete]
+        public void Add<T>(T t) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        [Obsolete]
+        public bool Excute<T>(string sql, object param)
+        {
+            throw new NotImplementedException();
+        }
 
         public IEnumerable<T> Query<T>(Expression<Func<T, bool>> expression) where T : class
         {

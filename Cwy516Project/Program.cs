@@ -28,6 +28,7 @@ namespace Cwy516Project
                 .AddJsonFile("Config/jwt.json", false, true)
                 .AddJsonFile("Config/rabbitmq.json", false, true)
                 .AddJsonFile("Config/polly.json",false,true)
+                .AddJsonFile("Config/mongodb.json",false,true)
                 .AddJsonFile("Config/mysql.json", false, true);//optional:缺失不报错，reloadonchange:修改了之后重新加载
             })
             .ConfigureLogging((context, builder) =>

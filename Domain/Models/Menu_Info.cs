@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Domain.Models
 {
-    public class Menu_Info
+    public class Menu_Info : BaseModel
     {
-        public long Id { get; set; }
         /// <summary>
         /// 菜单标识
         /// </summary>

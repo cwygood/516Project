@@ -57,5 +57,15 @@ namespace Infrastructure.EntityFrameworkCore
         {
             throw new NotImplementedException();
         }
+        [Obsolete]
+        public bool Excute<T>(string sql, object param)
+        {
+            throw new NotImplementedException();
+        }
+        public void Add<T>(T t) where T : class
+        {
+            this._context.Add(t);
+            this._context.SaveChanges();
+        }
     }
 }

@@ -1,12 +1,14 @@
 <template>
     <div>
+        <user ref="user" @ShowAllUser="GetAllUser"></user>
         <el-form ref='form' :model="form">
             <el-form-item label="用户id" prop="userId">
-                <el-input v-model="form.userId" style="width:100px" placeholder="用户id"></el-input>
+                <el-input v-model="form.userId" style="width:10%" placeholder="用户id"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="GetAllUser">获取所有用户</el-button>
                 <el-button type="primary" @click="GetUser(form.userId)">获取单个用户</el-button>
+                <el-button type="primary" @click="AddUser">新增用户</el-button>
             </el-form-item>
         </el-form>
         <el-table :data="userInfos">
@@ -46,8 +48,9 @@
 </template>
 
 <script>
-
+import User from "../components/user/user.vue"
 export default{
+    components:{User},
     data() {
         return {
             form:{
@@ -60,6 +63,9 @@ export default{
                 {id:2,name:"锁定"}
             ]
         }
+    },
+    created(){
+        this.GetAllUser();
     },
     methods:{
         GetAllUser(){
@@ -96,6 +102,14 @@ export default{
         },
         Delete(index,row){
             this.userInfos.splice(index,1);
+        },
+        AddUser(form){
+            this.$refs.user.Show();
+            // this.$request.post('home/AddUser',{
+            //     requestId : "",
+            //     userName : form.userName,
+
+            // })
         }
     }
 }

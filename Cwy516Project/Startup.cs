@@ -1,6 +1,9 @@
 using Application.Commands;
 using Application.Filters;
+using Application.Validations;
 using Autofac;
+using FluentValidation.AspNetCore;
+using Infrastructure.Configurations;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -87,10 +90,11 @@ namespace Cwy516Project
                             .AllowCredentials();
                 });
             });
-            services.AddControllers(options=>
+            services.AddControllers(options =>
             {
                 options.Filters.Add<UrlFilter>();
             })
+                .AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<UserInfoValidation>())
                 .AddNewtonsoftJson(jsonOptions =>
                 {
                     //使用驼峰样式，首字母小写
@@ -124,7 +128,7 @@ namespace Cwy516Project
             services.AddRabbitMq(Configuration.GetSection("RabbitMq"));
             services.AddCustomerMq();
             services.AddPollyHttpClient(Configuration.GetSection("Polly"));
-            
+            services.AddMongoDB(Configuration.GetSection("MongoDB"));
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

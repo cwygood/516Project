@@ -50,6 +50,7 @@ namespace Cwy516Project.Controllers
         [Route("api/Home/Post")]
         public JsonResult Post()
         {
+            var ss = this._cache.GetString("TestKey");
             var val = this._memoryCache.Get<string>("TestKey");
             return new JsonResult(new
             {
@@ -80,6 +81,18 @@ namespace Cwy516Project.Controllers
         //[Authorize(Roles = "admin")]
         public async Task<GetUserResponseCommand> GetUserById(GetUserRequestCommand command)
         {
+            return await this._mediator.Send(command);
+        }
+        /// <summary>
+        /// 新增用户
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("api/Home/AddUser")]
+        public async Task<AddUserResponseCommand> AddUser(AddUserRequestCommand command)
+        {
+            var ss = ModelState.IsValid;
             return await this._mediator.Send(command);
         }
         /// <summary>

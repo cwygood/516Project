@@ -1,17 +1,20 @@
-﻿using Domain.Interfaces;
+﻿using Domain.Enums;
+using Domain.Interfaces;
 using Domain.Models;
 using Domain.Repositories;
 using Infrastructure.Common.Db;
+using Infrastructure.Common.SnowFlake;
 using Infrastructure.Configurations;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using Yitter.IdGenerator;
 
 namespace Infrastructure.Repositories
 {
     public class UserRepository : CusDbContext, IUserRepository
     {
-        public UserRepository(IDbHelper context) : base(context)
+        public UserRepository(IDbHelper context, IMongoDbHelper mongoDbHelper) : base(context, mongoDbHelper)
         {
 
         }
@@ -32,6 +35,28 @@ namespace Infrastructure.Repositories
         public User_Info GetUserInfo(string userCode)
         {
             return this.QueryFirstOrDefault<User_Info>("select id,code,name,password,status,locktime from user_info where code=@code", new { code = userCode });
+        }
+
+        public bool AddUser(User_Info userInfo)
+        {
+            return this.Excute<User_Info>(@" insert into user_info(id,code,name,password,status) 
+                                            values(@id,@code,@name,@password,@status)",
+                                            new
+                                            {
+                                                id = SnowFlake.CreateSnowFlakeId(),
+                                                code = userInfo.Code,
+                                                name = userInfo.Name,
+                                                password = userInfo.Password,
+                                                status = UserStatus.Normal
+                                            });
+        }
+        public void AddMongoDb(User_Info userInfo)
+        {
+            if (userInfo.Id == 0)
+            {
+                userInfo.Id = SnowFlake.CreateSnowFlakeId();
+            }
+            this.AddMongoDb<User_Info>(userInfo);
         }
     }
 }

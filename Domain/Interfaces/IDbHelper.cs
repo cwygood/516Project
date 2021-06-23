@@ -14,5 +14,7 @@ namespace Domain.Interfaces
         IEnumerable<T> QueryAll<T>(string sql);
         T QueryFirstOrDefault<T>(string sql, object param);
         IEnumerable<T> QueryAll<T>(string sql, Dictionary<string,object> param);
+        bool Excute<T>(string sql, object param);
+        void Add<T>(T t) where T : class;
     }
 }

@@ -16,9 +16,11 @@ namespace Infrastructure.Common.Db
     public class CusDbContext
     {
         public IDbHelper DbHelper { get; set; }
-        public CusDbContext(IDbHelper context)
+        private readonly IMongoDbHelper _mongodbHelper;
+        public CusDbContext(IDbHelper context, IMongoDbHelper mongoDbHelper)
         {
             this.DbHelper = context;
+            this._mongodbHelper = mongoDbHelper;
         }
 
         protected IEnumerable<T> QueryAll<T>() where T : class
@@ -50,6 +52,15 @@ namespace Infrastructure.Common.Db
         protected T QueryFirstOrDefaultAsync<T>(string sql, Dictionary<string, object> param)
         {
             return this.DbHelper.QueryAll<T>(sql, param).FirstOrDefault();
+        }
+
+        protected bool Excute<T>(string sql,object param)
+        {
+            return this.DbHelper.Excute<T>(sql, param);
+        }
+        protected void AddMongoDb<T>(T t) where T : class
+        {
+            this._mongodbHelper.Add(t);
         }
     }
 }

@@ -24,5 +24,16 @@ namespace Domain.Repositories
         /// <param name="userCode"></param>
         /// <returns></returns>
         User_Info GetUserInfo(string userCode);
+        /// <summary>
+        /// 新增用户
+        /// </summary>
+        /// <param name="userInfo"></param>
+        /// <returns></returns>
+        bool AddUser(User_Info userInfo);
+        /// <summary>
+        /// 新增Mongodb集合
+        /// </summary>
+        /// <param name="userInfo"></param>
+        void AddMongoDb(User_Info userInfo);
     }
 }

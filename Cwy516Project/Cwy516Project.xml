@@ -18,6 +18,13 @@
             <param name="command"></param>
             <returns></returns>
         </member>
+        <member name="M:Cwy516Project.Controllers.HomeController.AddUser(Application.Commands.HomeCommands.AddUserRequestCommand)">
+            <summary>
+            新增用户
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
         <member name="M:Cwy516Project.Controllers.HomeController.GetToken">
             <summary>
             获取Token
