@@ -1,0 +1,4 @@
+[16924] 09 Jun 09:24:22.674 * Redis 3.2.100 (00000000/0) 64 bit, standalone mode, port 6378, pid 16924 ready to start.
+[16924] 09 Jun 09:24:22.676 # Server started, Redis version 3.2.100
+[16924] 09 Jun 09:24:22.677 * DB loaded from disk: 0.001 seconds
+[16924] 09 Jun 09:24:22.677 * The server is now ready to accept connections on port 6378

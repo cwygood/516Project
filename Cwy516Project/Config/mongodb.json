@@ -1,0 +1,7 @@
+﻿{
+  "MongoDB": { //mongodb数据库连接
+    "ConnectionString": "mongodb://cwy:123456@127.0.0.1:27017",
+    "DatabaseName": "516Project",
+    "IsSSL": true
+  }
+}
