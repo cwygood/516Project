@@ -21,13 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Ocelot", "In
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Polly", "Infrastructure.Polly\Infrastructure.Polly.csproj", "{81A3C58E-63ED-4B82-8A49-562B46A97A65}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{50955F31-98FA-4F24-ADB1-99DF9023B67D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cwy516Project", "Cwy516Project\Cwy516Project.csproj", "{13C42333-410C-4C76-AAB0-57B7B2C1769C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cwy516TestProject", "Cwy516TestProject\Cwy516TestProject.csproj", "{5FD49AAE-707A-48E6-A030-DBF00CC54A70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.MongoDB", "Infrastructure.MongoDB\Infrastructure.MongoDB.csproj", "{77DE6886-94CC-44FD-9594-722DE74507C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.MongoDB", "Infrastructure.MongoDB\Infrastructure.MongoDB.csproj", "{77DE6886-94CC-44FD-9594-722DE74507C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,9 +84,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{5FD49AAE-707A-48E6-A030-DBF00CC54A70} = {50955F31-98FA-4F24-ADB1-99DF9023B67D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AFB1F8D6-5B71-40C1-95E6-AF36C7428CE6}
