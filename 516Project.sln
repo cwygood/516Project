@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cwy516TestProject", "Cwy516
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.MongoDB", "Infrastructure.MongoDB\Infrastructure.MongoDB.csproj", "{77DE6886-94CC-44FD-9594-722DE74507C4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Jaeger", "Infrastructure.Jaeger\Infrastructure.Jaeger.csproj", "{B8E1B0B1-4CD1-4EFE-A0B7-5C82E1A932AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{77DE6886-94CC-44FD-9594-722DE74507C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77DE6886-94CC-44FD-9594-722DE74507C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77DE6886-94CC-44FD-9594-722DE74507C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8E1B0B1-4CD1-4EFE-A0B7-5C82E1A932AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8E1B0B1-4CD1-4EFE-A0B7-5C82E1A932AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8E1B0B1-4CD1-4EFE-A0B7-5C82E1A932AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8E1B0B1-4CD1-4EFE-A0B7-5C82E1A932AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -17,7 +17,8 @@ using System.Threading.Tasks;
 namespace Cwy516Project.Controllers
 {
     [ApiController]
-    public class HomeController : ControllerBase
+    [Route("api/[controller]/[action]")]
+    public class HomeController : Controller
     {
         private readonly ITest _test;
         private readonly ILogger<HomeController> _logger;
@@ -35,7 +36,6 @@ namespace Cwy516Project.Controllers
 
         #region Test
         [HttpGet]
-        [Route("api/Home/Index")]
         public ActionResult<string> Index()
         {
             //System.Threading.Thread.Sleep(1000 * 60);
@@ -47,7 +47,6 @@ namespace Cwy516Project.Controllers
             return "helloworld";
         }
         [HttpPost]
-        [Route("api/Home/Post")]
         public JsonResult Post()
         {
             var ss = this._cache.GetString("TestKey");
@@ -65,8 +64,7 @@ namespace Cwy516Project.Controllers
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("api/Home/GetAllUser")]
-        [Authorize]
+        //[Authorize]
         public async Task<GetAllUserResponseCommand> GetAllUser(GetAllUserRequestCommand command)
         {
             return await this._mediator.Send(command);
@@ -77,7 +75,6 @@ namespace Cwy516Project.Controllers
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("api/Home/GetUserById")]
         //[Authorize(Roles = "admin")]
         public async Task<GetUserResponseCommand> GetUserById(GetUserRequestCommand command)
         {
@@ -89,7 +86,6 @@ namespace Cwy516Project.Controllers
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("api/Home/AddUser")]
         public async Task<AddUserResponseCommand> AddUser(AddUserRequestCommand command)
         {
             var ss = ModelState.IsValid;
@@ -100,7 +96,6 @@ namespace Cwy516Project.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("api/Home/GetToken")]
         public async Task<GetTokenResponseCommand> GetToken()
         {
             //传入用户名和密码获取token=>用户名得到角色
@@ -113,7 +108,6 @@ namespace Cwy516Project.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("api/Home/CreateValidateCode")]
         public async Task<FileContentResult> CreateValidateCode()
         {
             var key = base.HttpContext.Request.Query["validateKey"];
@@ -131,7 +125,6 @@ namespace Cwy516Project.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Route("api/Home/Login")]
         public async Task<LoginResponseCommand> Login(LoginRequestCommand command)
         {
             return await this._mediator.Send(command);

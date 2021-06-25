@@ -70,13 +70,12 @@ namespace Infrastructure.Common.Cache
                 serviceOptions.AllowAdmin = true;
                 this._multiplexer = sentinelConnection.GetSentinelMasterConnection(serviceOptions);
                 /*
-                 * 正常情况下StackExchange.Redis会自动判别主从节点。但是,如果你没有使用类似于redis-sentinel或者redis cluster的管理工具，你可能会碰到有多个master节点的情况（例如，维护时重置了节点，在网络中在就表现为是一个master）。为了解决这种情况，StackExchange.Redis使用了tie-breaker的概念 - 他只有在检测到多个master的时候才会用到。（不包括redis cluster的情况下，因为redis cluster是正是需要多个master的）。为了兼容BookSleeve，默认的key是"__Booksleeve_TieBreak"（只存在于0号数据库）。他是一种原始的投票机制去判断更适用的master。(so that work is routed correctly.)
-
-类似的，当配置发生改变时（特别是master/slave配置），让已经链接的实例知道新的环境（通过INFO, CONFIG等可以使用的命令）是很重要的。StackExchagnge.Redist通过自动订阅一个pub/sub频道，这个频道是用来发送这些通知的。为了兼容BookSleeve，频道名名称默认是 "__Booksleeve_MasterChanged"。
-
-这两个选项都是可以通过.ConfigurationChannel和.TieBreaker配置属性自定义或者禁用的（设置为""）。
-
-这些设置也可以被IServer.MakeMaster()方法使用，来设置数据库里的tie-breaker以及广播配置更改消息。对于master/slave变化的配置信息也可以通过 ConnectionMultiplexer.PublishReconfigure 方法来请求所有节点刷新配置。
+                 * 正常情况下StackExchange.Redis会自动判别主从节点。但是,如果你没有使用类似于redis-sentinel或者redis cluster的管理工具，你可能会碰到有多个master节点的情况（例如，维护时重置了节点，在网络中在就表现为是一个master）。
+                 * 为了解决这种情况，StackExchange.Redis使用了tie-breaker的概念 - 他只有在检测到多个master的时候才会用到。（不包括redis cluster的情况下，因为redis cluster是正是需要多个master的）。为了兼容BookSleeve，默认的key
+                 * 是"__Booksleeve_TieBreak"（只存在于0号数据库）。他是一种原始的投票机制去判断更适用的master。(so that work is routed correctly.)类似的，当配置发生改变时（特别是master/slave配置），让已经链接的实例知道新的环境（通过INFO, 
+                 * CONFIG等可以使用的命令）是很重要的。StackExchagnge.Redist通过自动订阅一个pub/sub频道，这个频道是用来发送这些通知的。为了兼容BookSleeve，频道名名称默认是 "__Booksleeve_MasterChanged"。这两个选项都是可以通过.ConfigurationChannel
+                 * 和.TieBreaker配置属性自定义或者禁用的（设置为""）。这些设置也可以被IServer.MakeMaster()方法使用，来设置数据库里的tie-breaker以及广播配置更改消息。对于master/slave变化的配置信息也可以通过 ConnectionMultiplexer.PublishReconfigure 
+                 * 方法来请求所有节点刷新配置。
                  */
             }
             else if (this._redisType == Domain.Enums.RedisType.MasterSlave && options.CurrentValue.MasterSlaves != null)
@@ -127,12 +126,15 @@ namespace Infrastructure.Common.Cache
         /// <returns></returns>
         public IServer GetServer(int type = 0)
         {
-            switch (type)
+            if (this._redisType == Domain.Enums.RedisType.MasterSlave)
             {
-                case 1:
-                    return this._readMultiplexer.GetServer(this._readConnectString);
-                case 2:
-                    return this._writeMultiplexer.GetServer(this._writeConnectString);
+                switch (type)
+                {
+                    case 1:
+                        return this._readMultiplexer.GetServer(this._readConnectString);
+                    case 2:
+                        return this._writeMultiplexer.GetServer(this._writeConnectString);
+                }
             }
             return this._multiplexer.GetServer(this._connectString);
         }

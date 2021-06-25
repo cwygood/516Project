@@ -1,0 +1,13 @@
+﻿{
+  "Jaeger": {
+    "Host": "127.0.0.1",
+    "Port": 6831,
+    "MaxPacketSize": 100,
+    "IsFormSpan": true,
+    "FormValueMaxLength": 10000,
+    "IsQuerySpan": true,
+    "QueryValueMaxLength": 10000,
+    "IsBodySpan": true,
+    "BodyValueMaxLength": 10000
+  }
+}
