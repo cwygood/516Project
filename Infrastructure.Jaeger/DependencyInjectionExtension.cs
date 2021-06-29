@@ -31,14 +31,15 @@ public static partial class DependencyInjectionExtension
         {
             var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
             var reporter = new RemoteReporter.Builder().WithLoggerFactory(loggerFactory)
-                                                     .WithSender(new UdpSender("localhost", 6831, 0))
+                                                     //.WithSender(new UdpSender("localhost", 6831, 0))
+                                                     .WithSender(new HttpSender("http://localhost:14268/api/traces"))
                                                      .Build();
-            ITracer tracer = new Tracer.Builder(Assembly.GetEntryAssembly().GetName().Name)
+            var serviceName = Assembly.GetEntryAssembly().GetName().Name;
+            ITracer tracer = new Tracer.Builder(DateTime.Now.ToString("yyyyMMddHHmmssfff"))
                                      .WithReporter(reporter)
                                      .WithLoggerFactory(loggerFactory)
                                      .WithSampler(new ConstSampler(true))
                                      .Build();
-            GlobalTracer.Register(tracer);
 
             //var serviceName = provider.GetRequiredService<IWebHostEnvironment>().ApplicationName;
             //var loggerFactory = provider.GetRequiredService<ILoggerFactory>();

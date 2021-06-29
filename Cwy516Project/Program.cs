@@ -23,12 +23,16 @@ namespace Cwy516Project
             .ConfigureAppConfiguration(config =>
             {
                 config.SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("Config/appsettings.json")
                 .AddJsonFile("Config/logging.json", false, true)
                 .AddJsonFile("Config/redis.json", false, true)
                 .AddJsonFile("Config/jwt.json", false, true)
                 .AddJsonFile("Config/rabbitmq.json", false, true)
                 .AddJsonFile("Config/polly.json",false,true)
                 .AddJsonFile("Config/mongodb.json",false,true)
+                .AddJsonFile("Config/jaeger.json",false,true)
+                .AddJsonFile("Config/consul.json",false,true)
+                .AddJsonFile("Config/ocelot.json",false,true)
                 .AddJsonFile("Config/mysql.json", false, true);//optional:缺失不报错，reloadonchange:修改了之后重新加载
             })
             .ConfigureLogging((context, builder) =>

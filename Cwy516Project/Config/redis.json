@@ -1,9 +1,9 @@
 {
   "Redis": {
-    "RedisType": 1,
+    "RedisType": 0,
     "HostConfig": {
       "Host": "127.0.0.1",
-      "Port": 8052,
+      "Port": 6379,
       "Password": "123456",
       "DbIndex": 0
     },

@@ -4,6 +4,25 @@
         <name>Cwy516Project</name>
     </assembly>
     <members>
+        <member name="M:Cwy516Project.Controllers.HomeController.Get">
+            <summary>
+            服务调用
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cwy516Project.Controllers.HomeController.ConsulRequest(Application.Commands.HomeCommands.ConsulRequestCommand)">
+            <summary>
+            consul验证请求转发
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cwy516Project.Controllers.HomeController.HealthCheck">
+            <summary>
+            consul健康检查
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Cwy516Project.Controllers.HomeController.GetAllUser(Application.Commands.HomeCommands.GetAllUserRequestCommand)">
             <summary>
             查询所有用户

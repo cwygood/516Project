@@ -29,6 +29,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.MongoDB", "I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Jaeger", "Infrastructure.Jaeger\Infrastructure.Jaeger.csproj", "{B8E1B0B1-4CD1-4EFE-A0B7-5C82E1A932AA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Consul", "Infrastructure.Consul\Infrastructure.Consul.csproj", "{DD55C77C-5ACD-4E91-AB82-9D8C992BB7A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotApiGateWay", "OcelotApiGateWay\OcelotApiGateWay.csproj", "{B9294BC4-5A01-4662-8102-4697A97657EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +91,14 @@ Global
 		{B8E1B0B1-4CD1-4EFE-A0B7-5C82E1A932AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8E1B0B1-4CD1-4EFE-A0B7-5C82E1A932AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8E1B0B1-4CD1-4EFE-A0B7-5C82E1A932AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD55C77C-5ACD-4E91-AB82-9D8C992BB7A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD55C77C-5ACD-4E91-AB82-9D8C992BB7A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD55C77C-5ACD-4E91-AB82-9D8C992BB7A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD55C77C-5ACD-4E91-AB82-9D8C992BB7A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9294BC4-5A01-4662-8102-4697A97657EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9294BC4-5A01-4662-8102-4697A97657EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9294BC4-5A01-4662-8102-4697A97657EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9294BC4-5A01-4662-8102-4697A97657EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

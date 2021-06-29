@@ -24,12 +24,16 @@ namespace Infrastructure.Polly
 
         private HttpClient GetClient()
         {
+            HttpClient httpClient = null;
             if (this.MessageHandler != null)
             {
-                return new HttpClient(this.MessageHandler);
+                httpClient = new HttpClient(this.MessageHandler);
             }
-            
-            return this._facotry.CreateClient(this._options.CurrentValue.PollyName);
+            else
+            {
+                httpClient = this._facotry.CreateClient(this._options.CurrentValue.PollyName);
+            }
+            return httpClient;
         }
 
         public async Task<T> GetAsync<T>(string url) where T : class

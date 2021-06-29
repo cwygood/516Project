@@ -129,6 +129,9 @@ namespace Cwy516Project
             services.AddCustomerMq();
             services.AddPollyHttpClient(Configuration.GetSection("Polly"));
             services.AddMongoDB(Configuration.GetSection("MongoDB"));
+            services.AddJaeger(Configuration.GetSection("Jaeger"));
+            services.AddConsul(Configuration.GetSection("Consul"));
+            services.AddMyOcelot();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -137,7 +140,7 @@ namespace Cwy516Project
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime lifetime)
         {
             if (env.IsDevelopment())
             {
@@ -159,6 +162,8 @@ namespace Cwy516Project
             {
                 endpoints.MapControllers();
             });
+            app.UseConsul(Configuration.GetSection("Consul"), lifetime);
+            app.UseMyOcelot();
         }
     }
 }

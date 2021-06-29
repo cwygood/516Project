@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Application.Commands.HomeCommands
 {
-    public class AddUserCommondHandler : IRequestHandler<AddUserRequestCommand, AddUserResponseCommand>
+    public class AddUserCommandHandler : IRequestHandler<AddUserRequestCommand, AddUserResponseCommand>
     {
         private readonly IUserRepository _userRepository;
-        public AddUserCommondHandler(IUserRepository userRepository)
+        public AddUserCommandHandler(IUserRepository userRepository)
         {
             this._userRepository = userRepository;
         }

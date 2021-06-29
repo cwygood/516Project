@@ -1,0 +1,9 @@
+﻿{
+  "Consul": {
+    "ServiceName": "TestServiceA",
+    "ServiceHost": "localhost",
+    "ServicePort": 1234,
+    "HealthCheck": "api/Home/HealthCheck",
+    "ConsulAddress": "http://localhost:8500"
+  }
+}

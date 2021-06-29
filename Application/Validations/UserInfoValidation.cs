@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Application.Validations
 {
+    /// <summary>
+    /// 用户自定义校验
+    /// </summary>
     public class UserInfoValidation : AbstractValidator<AddUserRequestCommand>
     {
         public UserInfoValidation()
