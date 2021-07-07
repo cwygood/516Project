@@ -4,6 +4,7 @@ using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Provider.Consul;
+using Ocelot.Provider.Polly;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +18,8 @@ public static partial class DependencyInjectionExtension
                 .AddCacheManager(setting =>
                 {
                     setting.WithDictionaryHandle();
-                });
+                })
+                .AddPolly();//配置文件需要一一对应
         return services;
     }
 

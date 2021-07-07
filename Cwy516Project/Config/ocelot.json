@@ -31,7 +31,7 @@
       "DownstreamScheme": "http",
       "UpstreamPathTemplate": "/OcelotB",
       "UpstreamHttpMethod": [ "Get" ],
-      "ServiceName": "TestServiceC",
+      "ServiceName": "TestServiceB",
       "LoadBalancerOptions": {
         "Type": "RoundRobin" //负载均衡，轮询机制 LeastConnection/RoundRobin/NoLoadBalancer/CookieStickySessions
       },
@@ -58,8 +58,8 @@
     "ServiceDiscoveryProvider": {
       "Scheme": "http",
       "Host": "localhost",
-      "Port": 8500,
-      "Type": "Consul"
+      "Port": 8090,
+      "Type": "Consul"//nginx 转发
     },
     "RateLimitOptions": {
       "DisableRateLimitHeaders": false, //否禁用X-Rate-Limit和Retry-After标头（请求达到上限时response header中的限制数和多少秒后能重试）

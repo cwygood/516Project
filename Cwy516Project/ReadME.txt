@@ -13,3 +13,17 @@
 # 集成Jaeger分布式追踪组件（存在bug，部分请求无法追踪）
 # 集成Consul分布式服务注册和发现组件
 # 集成Ocelot分布式统一网关入口点
+# 集成IdentityServer4 验证
+# 集成Nginx+Ocelot+Consul
+
+
+
+
+
+
+
+# 启动的准备工作
+# 1、配置mysql主从数据库（如果有的话），否则就只配置一个
+# 2、启动redis
+# 3、启动mongodb
+# 4、启动consul

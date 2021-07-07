@@ -37,7 +37,7 @@ namespace Infrastructure.Consul
 
         public void GetService()
         {
-            var serviceNames = new List<string>() { "TestServiceB", "TestServiceC" };
+            var serviceNames = new List<string>() { "TestServiceB", "TestServiceC" };//调用的时候，按照服务名称去依次获取对应的地址
             serviceNames.ForEach(f =>
             {
                 Task.Run(() =>
@@ -54,7 +54,7 @@ namespace Infrastructure.Consul
         private void GetService(QueryOptions queryOptions, string serviceName)
         {
             var res = this._consulClient.Health.Service(serviceName, null, true, queryOptions).Result;
-            Console.WriteLine($"{DateTime.Now}获取{serviceName},WaitIndex:{queryOptions.WaitIndex},LastIndex:{res.LastIndex}");
+            //Console.WriteLine($"{DateTime.Now}获取{serviceName},WaitIndex:{queryOptions.WaitIndex},LastIndex:{res.LastIndex}");
             if (queryOptions.WaitIndex != res.LastIndex)
             {
                 //版本号不一致，说明服务器列表发生了变化

@@ -13,12 +13,10 @@
     <_ContentIncludedByDefault Remove="Config\appsettings.json" />
     <_ContentIncludedByDefault Remove="Config\jwt.json" />
     <_ContentIncludedByDefault Remove="Config\logging.json" />
-    <_ContentIncludedByDefault Remove="Config\metrics.json" />
     <_ContentIncludedByDefault Remove="Config\mysql.json" />
     <_ContentIncludedByDefault Remove="Config\polly.json" />
     <_ContentIncludedByDefault Remove="Config\rabbitmq.json" />
     <_ContentIncludedByDefault Remove="Config\redis.json" />
-    <_ContentIncludedByDefault Remove="Config\tracing.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +40,7 @@
     <ProjectReference Include="..\Infrastructure.Consul\Infrastructure.Consul.csproj" />
     <ProjectReference Include="..\Infrastructure.Dapper\Infrastructure.Dapper.csproj" />
     <ProjectReference Include="..\Infrastructure.EntityFrameworkCore\Infrastructure.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Infrastructure.IdentityServer\Infrastructure.IdentityServer.csproj" />
     <ProjectReference Include="..\Infrastructure.Jaeger\Infrastructure.Jaeger.csproj" />
     <ProjectReference Include="..\Infrastructure.MongoDB\Infrastructure.MongoDB.csproj" />
     <ProjectReference Include="..\Infrastructure.MyOrm\Infrastructure.MyOrm.csproj" />

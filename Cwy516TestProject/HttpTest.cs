@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Text;
 using Application.Commands.HomeCommands;
+using Domain.Models;
 
 namespace Cwy516TestProject
 {
@@ -17,6 +18,9 @@ namespace Cwy516TestProject
         {
             this._factory = factory;
         }
+        /// <summary>
+        /// 测试mock
+        /// </summary>
         [Fact]
         public async void Test1()
         {
@@ -34,6 +38,40 @@ namespace Cwy516TestProject
             var res = await client.SendAsync(requestMessage);
             var respond = JsonConvert.DeserializeObject<GetAllUserResponseCommand>(res.Content.ReadAsStringAsync().Result);
             Assert.True(respond.IsSuccess);
+        }
+
+        [Fact]
+        public async void IdentityServerTest()
+        {
+            //var data = new
+            //{
+            //    client_id = "client",
+            //    client_secret = "secret",
+            //    grant_type = "password",
+            //    username = "cwy",
+            //    password = "123456"
+            //};
+            var request = new HttpRequestMessage(HttpMethod.Post, "/connect/token");
+            //必须使用FormUrlEncodedContent的方式传递参数
+            List<KeyValuePair<string, string>> nameVals = new List<KeyValuePair<string, string>>();
+            nameVals.Add(new KeyValuePair<string, string>("client_id", "client"));
+            nameVals.Add(new KeyValuePair<string, string>("client_secret", "secret"));
+
+            //password方式
+            nameVals.Add(new KeyValuePair<string, string>("grant_type", "password"));
+            nameVals.Add(new KeyValuePair<string, string>("username", "admin"));
+            nameVals.Add(new KeyValuePair<string, string>("password", "123456"));
+
+            //client_credentials方式无用户
+            //nameVals.Add(new KeyValuePair<string, string>("grant_type", "client_credentials"));
+
+            request.Content = new FormUrlEncodedContent(nameVals);
+            //request.Content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/x-www-form-urlencoded");
+            //request.Content.Headers.ContentType= new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
+
+            var client = this._factory.CreateClient();
+            var res = await client.SendAsync(request);
+            var respond = JsonConvert.DeserializeObject<IdentityServerTokenResult>(res.Content.ReadAsStringAsync().Result);
         }
     }
 }

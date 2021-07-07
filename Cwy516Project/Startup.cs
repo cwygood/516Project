@@ -123,6 +123,11 @@ namespace Cwy516Project
 #endif
             services.AddCache(Configuration.GetSection("Redis"));//添加redis
             services.AddJwt(Configuration.GetSection("Jwt"));//添加jwt验证
+            var useIdentityServer = Configuration.GetValue<bool>("UseIdentity");
+            if (useIdentityServer)
+            {
+                services.AddMyIdentityServer(Configuration.GetSection("IdentityServer"));
+            }
             services.AddSnowFlake();//雪花算法
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddRabbitMq(Configuration.GetSection("RabbitMq"));
@@ -132,6 +137,7 @@ namespace Cwy516Project
             services.AddJaeger(Configuration.GetSection("Jaeger"));
             services.AddConsul(Configuration.GetSection("Consul"));
             services.AddMyOcelot();
+            
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -151,6 +157,12 @@ namespace Cwy516Project
                     });
                 app.UseDeveloperExceptionPage();
             }
+            //identityserver认证
+            var useIdentityServer = Configuration.GetValue<bool>("UseIdentity");
+            if (useIdentityServer)
+            {
+                app.UseMyIdentityServer();
+            }
 
             app.UseRouting();
             app.UseCors("cors");
@@ -162,7 +174,7 @@ namespace Cwy516Project
             {
                 endpoints.MapControllers();
             });
-            app.UseConsul(Configuration.GetSection("Consul"), lifetime);
+            app.UseConsul(Configuration.GetSection("Consul"), lifetime, Configuration);
             app.UseMyOcelot();
         }
     }

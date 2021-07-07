@@ -19,13 +19,18 @@ public static partial class DependencyInjectionExtension
         service.AddSingleton<IConsulHelper, ConsulHelper>();
         return service;
     }
-    public static IApplicationBuilder UseConsul(this IApplicationBuilder app, IConfigurationSection section, IHostApplicationLifetime lifetime)
+    public static IApplicationBuilder UseConsul(this IApplicationBuilder app, IConfigurationSection section, IHostApplicationLifetime lifetime, IConfiguration configuration)
     {
         var config = section.Get<ConsulConfiguration>();
         var consulClient = new ConsulClient(c =>
           {
               c.Address = new Uri(config.ConsulAddress);
           });
+        if (config.ServicePort <= 0)
+        {
+            var strUrls = configuration.GetValue<string>("urls");
+            config.ServicePort = Convert.ToInt32(strUrls.Substring(strUrls.LastIndexOf(":") + 1));
+        }
         var registration = new AgentServiceRegistration()
         {
             ID = Guid.NewGuid().ToString("N"),//服务实例唯一id

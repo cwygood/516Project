@@ -14,6 +14,8 @@ namespace Infrastructure.Dapper
         {
             this._context = context;
         }
+
+        #region Ignore
         [Obsolete]
         public IEnumerable<T> Query<T>(Expression<Func<T, bool>> expression) where T : class
         {
@@ -29,28 +31,31 @@ namespace Infrastructure.Dapper
         {
             throw new NotImplementedException();
         }
-
-        public IEnumerable<T> QueryAll<T>(string sql)
-        {
-            return this._context.DbConnection().Query<T>(sql);
-        }
-        public T QueryFirstOrDefault<T>(string sql, object param)
-        {
-            return this._context.DbConnection().QueryFirstOrDefault<T>(sql, param);
-        }
         [Obsolete]
         public IEnumerable<T> QueryAll<T>(string sql, Dictionary<string, object> param)
         {
             throw new NotImplementedException();
-        }
-        public bool Excute<T>(string sql, object param)
-        {
-            return this._context.DbConnection().Execute(sql, param) > 0;
         }
         [Obsolete]
         public void Add<T>(T t) where T : class
         {
             throw new NotImplementedException();
         }
+        #endregion
+
+        public IEnumerable<T> QueryAll<T>(string sql)
+        {
+            return this._context.ReadDbConnection().Query<T>(sql);
+        }
+        public T QueryFirstOrDefault<T>(string sql, object param)
+        {
+            return this._context.ReadDbConnection().QueryFirstOrDefault<T>(sql, param);
+        }
+        
+        public bool Excute<T>(string sql, object param)
+        {
+            return this._context.DbConnection().Execute(sql, param) > 0;
+        }
+        
     }
 }
