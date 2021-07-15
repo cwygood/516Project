@@ -15,7 +15,7 @@
 # 集成Ocelot分布式统一网关入口点
 # 集成IdentityServer4 验证
 # 集成Nginx+Ocelot+Consul
-# 集成CI/CD环境
+# 集成CI/CD环境，Jenkins+Harbor+Natapp
 
 
 
