@@ -174,8 +174,8 @@ namespace Cwy516Project
             {
                 endpoints.MapControllers();
             });
-            app.UseConsul(Configuration.GetSection("Consul"), lifetime, Configuration);
-            app.UseMyOcelot();
+            //app.UseConsul(Configuration.GetSection("Consul"), lifetime, Configuration);
+            //app.UseMyOcelot();
         }
     }
 }
