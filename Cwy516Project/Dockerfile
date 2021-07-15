@@ -1,10 +1,10 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM 192.168.98.249/test/aspnet3.1 AS base
+FROM http://192.168.98.249/test/aspnet3.1 AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM 192.168.98.249/test/sdk3.1 AS build
+FROM http://192.168.98.249/test/sdk3.1 AS build
 WORKDIR /src
 COPY ["Cwy516Project/Cwy516Project.csproj", "Cwy516Project/"]
 COPY ["Infrastructure.Dapper/Infrastructure.Dapper.csproj", "Infrastructure.Dapper/"]
