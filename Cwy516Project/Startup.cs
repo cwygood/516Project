@@ -131,7 +131,7 @@ namespace Cwy516Project
             services.AddSnowFlake();//—©ª®À„∑®
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddRabbitMq(Configuration.GetSection("RabbitMq"));
-            //services.AddCustomerMq();
+            services.AddCustomerMq();
             services.AddPollyHttpClient(Configuration.GetSection("Polly"));
             services.AddMongoDB(Configuration.GetSection("MongoDB"));
             services.AddJaeger(Configuration.GetSection("Jaeger"));
@@ -174,8 +174,8 @@ namespace Cwy516Project
             {
                 endpoints.MapControllers();
             });
-            //app.UseConsul(Configuration.GetSection("Consul"), lifetime, Configuration);
-            //app.UseMyOcelot();
+            app.UseConsul(Configuration.GetSection("Consul"), lifetime, Configuration);
+            app.UseMyOcelot();
         }
     }
 }
