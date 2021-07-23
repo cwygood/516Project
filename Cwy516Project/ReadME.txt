@@ -17,7 +17,7 @@
 # 集成Nginx+Ocelot+Consul
 # 集成CI/CD环境，Jenkins+Harbor+Natapp
 # 配置Docker-compose.yml，批量启动所需的组件
-# 集成Elasticsearch+Logstash+Kibana(ELK日志系统)
+# 集成Elasticsearch+Logstash+Kibana(ELK日志系统)(todo)
 
 
 
