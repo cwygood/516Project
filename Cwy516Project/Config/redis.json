@@ -2,7 +2,7 @@
   "Redis": {
     "RedisType": 0,
     "HostConfig": {
-      "Host": "192.168.98.145",
+      "Host": "192.168.123.233",
       "Port": 6379,
       "Password": "123456",
       "DbIndex": 0

@@ -3,6 +3,6 @@
     "ServiceName": "TestServiceA",
     "ServiceHost": "localhost",
     "HealthCheck": "api/Home/HealthCheck",
-    "ConsulAddress": "http://localhost:8090"
+    "ConsulAddress": "http://192.168.123.233:8090"
   }
 }
