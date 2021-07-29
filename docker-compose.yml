@@ -73,7 +73,7 @@ services:
         ports: 
             - "8090:8090"
         volumes: 
-            - /nginx.conf:/etc/nginx/nginx.conf
+            - Configs/nginx.conf:/etc/nginx/nginx.conf
     redis: 
         image: 192.168.123.185/test/redis:v1
         container_name: redis
@@ -82,7 +82,7 @@ services:
             - "6379:6379"
         command: redis-server /etc/redis/redis.conf
         volumes: 
-            - /redis.conf:/etc/redis/redis.conf
-            - /data:/data
+            - Configs/redis.conf:/etc/redis/redis.conf
+            - Configs/data:/data
 
 
