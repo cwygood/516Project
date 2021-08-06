@@ -137,7 +137,7 @@ namespace Cwy516Project
             services.AddJaeger(Configuration.GetSection("Jaeger"));
             services.AddConsul(Configuration.GetSection("Consul"));
             services.AddMyOcelot();
-            
+            services.AddElasticSearch(Configuration.GetSection("ElasticSearch"));
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

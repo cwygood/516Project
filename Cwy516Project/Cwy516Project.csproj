@@ -39,6 +39,7 @@
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Infrastructure.Consul\Infrastructure.Consul.csproj" />
     <ProjectReference Include="..\Infrastructure.Dapper\Infrastructure.Dapper.csproj" />
+    <ProjectReference Include="..\Infrastructure.ElasticSearch\Infrastructure.ElasticSearch.csproj" />
     <ProjectReference Include="..\Infrastructure.EntityFrameworkCore\Infrastructure.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Infrastructure.IdentityServer\Infrastructure.IdentityServer.csproj" />
     <ProjectReference Include="..\Infrastructure.Jaeger\Infrastructure.Jaeger.csproj" />

@@ -7,6 +7,8 @@ namespace Cwy516Project
 {
     public class Test : ITest
     {
+        public string Id { get; set; }
+        public string Name { get; set; }
         public void Show()
         {
             Console.WriteLine("AAAA");

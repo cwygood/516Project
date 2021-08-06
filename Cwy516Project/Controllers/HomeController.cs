@@ -1,16 +1,20 @@
 ﻿using Application.Commands;
 using Application.Commands.HomeCommands;
 using Domain.Interfaces;
+using Elasticsearch.Net;
 using Infrastructure.Common.Consts;
 using Infrastructure.Common.Tools;
 using Infrastructure.Configurations;
+using Infrastructure.ElasticSearch;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Nest;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +32,8 @@ namespace Cwy516Project.Controllers
         private readonly IRedisCache _cache;
         private readonly IMemoryCache _memoryCache;
         private readonly IOptionsMonitor<ConsulConfiguration> _options;
-        public HomeController(ITest test, ILogger<HomeController> logger, IMediator mediator, IRedisCache cache, IMemoryCache memoryCache, IOptionsMonitor<ConsulConfiguration> options)
+        private readonly IESServer _esServer;
+        public HomeController(ITest test, ILogger<HomeController> logger, IMediator mediator, IRedisCache cache, IMemoryCache memoryCache, IOptionsMonitor<ConsulConfiguration> options, IESServer eSServer)
         {
             this._test = test;
             this._logger = logger;
@@ -36,6 +41,7 @@ namespace Cwy516Project.Controllers
             this._cache = cache;
             this._memoryCache = memoryCache;
             this._options = options;
+            this._esServer = eSServer;
         }
 
         #region Test
@@ -104,6 +110,65 @@ namespace Cwy516Project.Controllers
                 MyActionResult = val
             });
         }
+        [HttpGet]
+        public async Task<IEnumerable<ESDocument>> ESLinqSearch()
+        {
+            var list = await this._esServer.ElasticLinqClient.SearchAsync<ESDocument>(
+                f => f.Index("cwy516project").Query(
+                    op => op.MatchAll() 
+                    //op.Match(
+                    //    ss => ss.Field(
+                    //        qq => qq.Name.StartsWith("Test")))
+                            ));
+            return list.Documents;
+        }
+        [HttpGet]
+        public async Task<JObject> ESJsonSearch()
+        {
+            var jsonObject = new { query = new { match = new { Name = "Test" } } };
+            string json = JsonConvert.SerializeObject(jsonObject);
+            var res = await this._esServer.ElasticJsonClient.SearchAsync<StringResponse>("Test", PostData.String(json));
+            return JObject.Parse(res.Body);
+        }
+        [HttpPost]
+        public async Task<string> ESCreateLinqIndex(string indexName, int numberOfShards = 5, int numberOfReplicas = 1)
+        {
+            //管道
+            var res = await this._esServer.ElasticLinqClient.Indices.CreateAsync(indexName, f => f.InitializeUsing(new IndexState()
+            {
+                Settings = new IndexSettings()
+                {
+                    NumberOfShards = numberOfShards,
+                    NumberOfReplicas = numberOfReplicas
+                }
+            })
+            .Map<Test>(p => p.AutoMap()));
+
+            var sss = await this._esServer.ElasticLinqClient.IndexDocumentAsync<ESDocument>(new ESDocument() { data = "1111",Id="my516project" });
+            return sss.Index;
+        }
+        [HttpPost]
+        public async Task<string> ESCreateJsonIndex(string indexName, string id)
+        {
+            var ss = new
+            {
+                mappings = new
+                {
+                    properties = new
+                    {
+                        name = new
+                        {
+                            type="text"
+                        }
+                    }
+                }
+            };
+            var sss = await this._esServer.ElasticJsonClient.IndexAsync<StringResponse>(indexName, id, PostData.Serializable(new Test() { Id = "123", Name = "ttt" }));
+            var res = await this._esServer.ElasticJsonClient.Indices.CreateAsync<StringResponse>(indexName, PostData.Serializable(ss));
+
+            return sss.Body;
+        }
+
         #endregion
 
         /// <summary>
