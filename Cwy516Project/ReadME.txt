@@ -18,6 +18,7 @@
 # 集成CI/CD环境，Jenkins+Harbor+Natapp
 # 配置docker启动
 # 配置Docker-compose.yml，批量启动所需的组件（cwy516project+consul+nginx+redis）(todo:ocelot+mongodb+mysql)
+# 配置ElasticSearch
 # 集成Elasticsearch+Logstash+Kibana(ELK日志系统)(todo)
 
 
