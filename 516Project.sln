@@ -35,7 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotApiGateWay", "OcelotA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.IdentityServer", "Infrastructure.IdentityServer\Infrastructure.IdentityServer.csproj", "{AF25DEE7-81D4-48AC-84DD-B60B44D49F94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.ElasticSearch", "Infrastructure.ElasticSearch\Infrastructure.ElasticSearch.csproj", "{A1670E68-FEA7-421D-9707-971E2622F30A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.ElasticSearch", "Infrastructure.ElasticSearch\Infrastructure.ElasticSearch.csproj", "{A1670E68-FEA7-421D-9707-971E2622F30A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Kafka", "Infrastructure.Kafka\Infrastructure.Kafka.csproj", "{6943AB17-8DE1-417C-9C87-8340C154EB36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +113,10 @@ Global
 		{A1670E68-FEA7-421D-9707-971E2622F30A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1670E68-FEA7-421D-9707-971E2622F30A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1670E68-FEA7-421D-9707-971E2622F30A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6943AB17-8DE1-417C-9C87-8340C154EB36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6943AB17-8DE1-417C-9C87-8340C154EB36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6943AB17-8DE1-417C-9C87-8340C154EB36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6943AB17-8DE1-417C-9C87-8340C154EB36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,6 +6,7 @@ using Infrastructure.Common.Consts;
 using Infrastructure.Common.Tools;
 using Infrastructure.Configurations;
 using Infrastructure.ElasticSearch;
+using Infrastructure.Kafka;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +34,9 @@ namespace Cwy516Project.Controllers
         private readonly IMemoryCache _memoryCache;
         private readonly IOptionsMonitor<ConsulConfiguration> _options;
         private readonly IESServer _esServer;
-        public HomeController(ITest test, ILogger<HomeController> logger, IMediator mediator, IRedisCache cache, IMemoryCache memoryCache, IOptionsMonitor<ConsulConfiguration> options, IESServer eSServer)
+        private readonly IKafkaHelper _kafkaHelper;
+        public HomeController(ITest test, ILogger<HomeController> logger, IMediator mediator, IRedisCache cache, IMemoryCache memoryCache, IOptionsMonitor<ConsulConfiguration> options, IESServer eSServer,
+            IKafkaHelper kafkaHelper)
         {
             this._test = test;
             this._logger = logger;
@@ -42,6 +45,7 @@ namespace Cwy516Project.Controllers
             this._memoryCache = memoryCache;
             this._options = options;
             this._esServer = eSServer;
+            this._kafkaHelper = kafkaHelper;
         }
 
         #region Test
@@ -110,6 +114,8 @@ namespace Cwy516Project.Controllers
                 MyActionResult = val
             });
         }
+
+        #region ElasticSearch
         [HttpGet]
         public async Task<IEnumerable<ESDocument>> ESLinqSearch()
         {
@@ -168,6 +174,23 @@ namespace Cwy516Project.Controllers
 
             return sss.Body;
         }
+        #endregion
+
+        #region Kafka
+
+        [HttpPost]
+        public async Task<string> PublishKafka(string topic, Test test)
+        {
+            return await this._kafkaHelper.PublishAsync<Test>(topic, test);
+        }
+
+        [HttpPost]
+        public async Task<Test> SubscribeKafka(string[] topics)
+        {
+            return await this._kafkaHelper.SubscribeAsync<Test>(topics);
+        }
+
+        #endregion
 
         #endregion
 

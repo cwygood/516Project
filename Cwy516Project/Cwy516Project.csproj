@@ -43,6 +43,7 @@
     <ProjectReference Include="..\Infrastructure.EntityFrameworkCore\Infrastructure.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Infrastructure.IdentityServer\Infrastructure.IdentityServer.csproj" />
     <ProjectReference Include="..\Infrastructure.Jaeger\Infrastructure.Jaeger.csproj" />
+    <ProjectReference Include="..\Infrastructure.Kafka\Infrastructure.Kafka.csproj" />
     <ProjectReference Include="..\Infrastructure.MongoDB\Infrastructure.MongoDB.csproj" />
     <ProjectReference Include="..\Infrastructure.MyOrm\Infrastructure.MyOrm.csproj" />
     <ProjectReference Include="..\Infrastructure.Ocelot\Infrastructure.Ocelot.csproj" />
