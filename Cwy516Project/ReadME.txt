@@ -22,6 +22,7 @@
 # 集成Kafka消息队列
 # 集成Elasticsearch+Logstash+Kibana(ELK日志系统)(Filebeat+Kafka)
 # 集成Kafka集群
+# 集成RabbitMq集群（3.8+3.9，区别就是erlang.cookie的配置方式，最新的硬盘空间占用少）
 
 
 
@@ -34,3 +35,4 @@
 # 2、启动redis
 # 3、启动mongodb
 # 4、启动consul
+# 5、启动rabbitmq，如果有集群，通过docker-compose启动了容器之后，需要进入容器将节点加入集群（rabbitmqctl join_cluster --ram rabbit@rabbit1)

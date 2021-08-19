@@ -24,10 +24,10 @@ namespace Infrastructure.Common.Mq
                 //rabbitmq网络连接使用的是15672（http），但是此处连接的端口必须是5672（amqp)
                 var factory = new ConnectionFactory()
                 {
-                    HostName = options.CurrentValue.Host,
-                    UserName = options.CurrentValue.User,
-                    Password = options.CurrentValue.Password,
-                    Port = options.CurrentValue.Port
+                    HostName = options.CurrentValue.HostInfo.Host,
+                    UserName = options.CurrentValue.HostInfo.User,
+                    Password = options.CurrentValue.HostInfo.Password,
+                    Port = options.CurrentValue.HostInfo.Port
                 };
                 this._logger = logger;
                 this._connection = factory.CreateConnection();

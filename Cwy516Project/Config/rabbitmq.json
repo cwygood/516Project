@@ -1,8 +1,32 @@
 ﻿{
   "RabbitMq": {
-    "Host": "127.0.0.1",
-    "User": "guest",
-    "Password": "guest",
-    "Port": 5672
+    "HostInfo": {
+      "Host": "192.168.123.233",
+      "User": "guest",
+      "Password": "guest",
+      "Port": 5672
+    },
+    "Cluster": {
+      "Producter": {
+        "Host": "192.168.123.233",
+        "User": "guest",
+        "Password": "guest",
+        "Port": 5672
+      },
+      "Consumer": [
+        {
+          "Host": "192.168.123.233",
+          "User": "guest",
+          "Password": "guest",
+          "Port": 5673
+        },
+        {
+          "Host": "192.168.123.233",
+          "User": "guest",
+          "Password": "guest",
+          "Port": 5674
+        }
+      ]
+    }
   }
 }

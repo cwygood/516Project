@@ -16,6 +16,9 @@ services:
             - consul4
             - nginx
             - redis
+            - rabbitmq1
+            - rabbitmq2
+            - rabbitmq3
     consul1: 
         image: consul:latest
         container_name: consul1
@@ -84,5 +87,75 @@ services:
         volumes: 
             - /home/cwy/webroot/cwy516project/redis/redis.conf:/etc/redis/redis.conf
             - /home/cwy/webroot/cwy516project/redis/data:/data
+    rabbitmq1: 
+        image: rabbitmq:3.8-management
+        container_name: rabbitmq1
+        restart: always
+        hostname: rabbit1
+        ports: 
+            - 5672:5672
+            - 15672:15672
+        environment: 
+            - RABBITMQ_ERLANG_COOKIE=mycookie
+    rabbitmq2: 
+        image: rabbitmq:3.8-management
+        container_name: rabbitmq2
+        restart: always
+        hostname: rabbit2
+        ports: 
+            - 5673:5672
+            - 15673:15672
+        environment: 
+            - RABBITMQ_ERLANG_COOKIE=mycookie
+        links: 
+            - rabbitmq1
+    rabbitmq3:
+        image: rabbitmq:3.8-management
+        container_name: rabbitmq3
+        restart: always
+        hostname: rabbit3
+        ports: 
+            - 5674:5672
+            - 15674:15672
+        environment: 
+            - RABBITMQ_ERLANG_COOKIE=mycookie
+        links: 
+            - rabbitmq1
+            - rabbitmq2
+    rabbitmqnew1: 
+        image: rabbitmq:management
+        container_name: rabbitmqnew1
+        restart: always
+        hostname: rabbitnew1
+        ports: 
+            - 5675:5672
+            - 15675:15672
+        volumes: 
+            - /home/cwy/webroot/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
+    rabbitmqnew2: 
+        image: rabbitmq:management
+        container_name: rabbitmqnew2
+        restart: always
+        hostname: rabbitnew2
+        ports: 
+            - 5676:5672
+            - 15676:15672
+        volumes: 
+            - /home/cwy/webroot/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
+        links: 
+            - rabbitmqnew1
+    rabbitmqnew3: 
+        image: rabbitmq:management
+        container_name: rabbitmqnew3
+        restart: always
+        hostname: rabbitnew3
+        ports: 
+            - 5677:5672
+            - 15677:15672
+        volumes: 
+            - /home/cwy/webroot/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
+        links: 
+            - rabbitmqnew1
+            - rabbitmqnew2
 
 

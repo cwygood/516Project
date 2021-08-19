@@ -3,30 +3,63 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Infrastructure.Common.Mq
 {
     public class RabbitMqClient
     {
         private readonly ILogger<RabbitMqClient> _logger;
-        private readonly IModel _channel;
+        private readonly IModel _sendChannel;
+        private readonly Dictionary<string, IModel> _receiveChannels;
         public RabbitMqClient(IOptionsMonitor<RabbitMqConfiguration> options, ILogger<RabbitMqClient> logger)
         {
             this._logger = logger;
+            this._receiveChannels = new Dictionary<string, IModel>();
             try
             {
-                var factory = new ConnectionFactory()
+                if (options.CurrentValue.Cluster != null)
                 {
-                    HostName = options.CurrentValue.Host,
-                    UserName = options.CurrentValue.User,
-                    Password = options.CurrentValue.Password,
-                    Port = options.CurrentValue.Port
-                };
-                var connection = factory.CreateConnection();
-                this._channel = connection.CreateModel();
+                    var cluster = options.CurrentValue.Cluster;
+                    
+                    var sendFactory = new ConnectionFactory()
+                    {
+                        HostName = cluster.Producter.Host,
+                        UserName = cluster.Producter.User,
+                        Password = cluster.Producter.Password,
+                        Port = cluster.Producter.Port
+                    };
+                    this._sendChannel = sendFactory.CreateConnection().CreateModel();
+                    foreach(var consumer in cluster.Consumer)
+                    {
+                        var receiveFactory = new ConnectionFactory()
+                        {
+                            HostName = consumer.Host,
+                            UserName = consumer.User,
+                            Password = consumer.Password,
+                            Port = consumer.Port
+                        };
+                        this._receiveChannels.Add(consumer.Host + "_" + consumer.Port, receiveFactory.CreateConnection().CreateModel());
+                    }
+                }
+                else
+                {
+                    var factory = new ConnectionFactory()
+                    {
+                        HostName = options.CurrentValue.HostInfo.Host,
+                        UserName = options.CurrentValue.HostInfo.User,
+                        Password = options.CurrentValue.HostInfo.Password,
+                        Port = options.CurrentValue.HostInfo.Port
+                    };
+                    var connection = factory.CreateConnection();
+                    this._sendChannel = connection.CreateModel();
+                    this._receiveChannels.Add(options.CurrentValue.HostInfo.Host + "_" + options.CurrentValue.HostInfo.Port, connection.CreateModel());
+                }
+                
             }
             catch (Exception ex)
             {
@@ -37,7 +70,7 @@ namespace Infrastructure.Common.Mq
         public virtual void PushMessage(string routeKey, object message, string exchangeName)
         {
             this._logger.LogInformation($"PushMessage routeKey:{routeKey}");
-            this._channel.ExchangeDeclare(exchange: exchangeName, type: "topic");
+            this._sendChannel.ExchangeDeclare(exchange: exchangeName, type: "topic");
             //this._channel.QueueDeclare(
             //    queue: routeKey,//队列名称
             //    durable: false,//是否持久化，保存到磁盘
@@ -51,8 +84,34 @@ namespace Infrastructure.Common.Mq
             //    );
             var msgJson = JsonConvert.SerializeObject(message);
             var body = Encoding.UTF8.GetBytes(msgJson);
-            this._channel.BasicPublish(exchange: exchangeName, routingKey: routeKey, basicProperties: null, body: body);
+            this._sendChannel.BasicPublish(exchange: exchangeName, routingKey: routeKey, basicProperties: null, body: body);
         }
 
+        public virtual void GetMessage(string routeKey, string exchangeName)
+        {
+            Parallel.ForEach(this._receiveChannels, channel =>
+            {
+                channel.Value.ExchangeDeclare(exchangeName, "topic");
+                channel.Value.QueueDeclare("queue", true, false, false);
+                channel.Value.QueueBind("queue", exchangeName, routeKey);
+                //公平分发,不要同一时间给一个工作者发送多于一个消息 
+                channel.Value.BasicQos(0, 1, false);
+                var consumer = new EventingBasicConsumer(channel.Value);
+                consumer.Received += (model, e) =>
+                {
+                    var body = e.Body.ToArray();
+                    var msg = Encoding.UTF8.GetString(body);
+                    Console.WriteLine($"{channel.Key}消息：{msg}");
+                    channel.Value.BasicAck(e.DeliveryTag, false);
+                };
+                //指定从哪个消费者从哪个通道获取消息，并指明自动确认的机制 //参数1：队列名，参数2：确认机制，true表示自动确认，false代表手动确认，参数3：消费者 
+                var tag = channel.Value.BasicConsume("queue", false, consumer);
+            });
+        }
+
+        private void Consumber_Received(object sender, BasicDeliverEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

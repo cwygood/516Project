@@ -3,6 +3,7 @@ using Application.Commands.HomeCommands;
 using Domain.Interfaces;
 using Elasticsearch.Net;
 using Infrastructure.Common.Consts;
+using Infrastructure.Common.Mq;
 using Infrastructure.Common.Tools;
 using Infrastructure.Configurations;
 using Infrastructure.ElasticSearch;
@@ -35,8 +36,9 @@ namespace Cwy516Project.Controllers
         private readonly IOptionsMonitor<ConsulConfiguration> _options;
         private readonly IESServer _esServer;
         private readonly IKafkaHelper _kafkaHelper;
+        private readonly RabbitMqClient _rabbitMqClient;
         public HomeController(ITest test, ILogger<HomeController> logger, IMediator mediator, IRedisCache cache, IMemoryCache memoryCache, IOptionsMonitor<ConsulConfiguration> options, IESServer eSServer,
-            IKafkaHelper kafkaHelper)
+            IKafkaHelper kafkaHelper, RabbitMqClient rabbitMqClient)
         {
             this._test = test;
             this._logger = logger;
@@ -46,6 +48,7 @@ namespace Cwy516Project.Controllers
             this._options = options;
             this._esServer = eSServer;
             this._kafkaHelper = kafkaHelper;
+            this._rabbitMqClient = rabbitMqClient;
         }
 
         #region Test
@@ -188,6 +191,21 @@ namespace Cwy516Project.Controllers
         public async Task<Test> SubscribeKafka(string[] topics)
         {
             return await this._kafkaHelper.SubscribeAsync<Test>(topics);
+        }
+
+        #endregion
+
+        #region RabbitMq集群
+
+        [HttpPost]
+        public void SendRabbitMq(string message)
+        {
+            this._rabbitMqClient.PushMessage("rabbitmqTest", message, "20210818");
+        }
+        [HttpPost]
+        public void ReceiveRabbitMq()
+        {
+            this._rabbitMqClient.GetMessage("rabbitmqTest", "20210818");
         }
 
         #endregion
