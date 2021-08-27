@@ -23,7 +23,11 @@
 # 集成Elasticsearch+Logstash+Kibana(ELK日志系统)(Filebeat+Kafka)
 # 集成Kafka集群
 # 集成RabbitMq集群（3.8+3.9，区别就是erlang.cookie的配置方式，最新的硬盘空间占用少）
-
+# 集成App.Metrics+InfluxDB+Grafana(todo)
+# 集成事件驱动：不同服务相互调用，只需要定义一个接口，其他接口通过事件响应的方式调用(todo)
+# 配置k8s（todo)
+# 集成gRPC（todo）
+# 集成apollo(阿波罗)配置中心
 
 
 

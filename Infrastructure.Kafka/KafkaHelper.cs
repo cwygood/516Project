@@ -24,7 +24,7 @@ namespace Infrastructure.Kafka
         {
             var config = new ProducerConfig
             {
-                BootstrapServers = this._options.CurrentValue.Url//集群的话，有个多个地址，用逗号隔开
+                BootstrapServers = this._options.CurrentValue.Url//集群的话，有多个地址，用逗号隔开
             };
             using(var producer=new ProducerBuilder<string, string>(config).Build())
             {
