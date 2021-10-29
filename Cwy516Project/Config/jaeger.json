@@ -1,7 +1,8 @@
 ﻿{
   "Jaeger": {
-    "Host": "127.0.0.1",
-    "Port": 6831,
+    "Host": "192.168.152.200",
+    "Port": 5775,
+    "Endpoint": "http://192.168.152.200:14268/api/traces",
     "MaxPacketSize": 100,
     "IsFormSpan": true,
     "FormValueMaxLength": 10000,

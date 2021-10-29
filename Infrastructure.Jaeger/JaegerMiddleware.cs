@@ -29,6 +29,7 @@ namespace Infrastructure.Jaeger
 
         public async Task InvokeAsync(HttpContext context, ITracer tracer)
         {
+            tracer = GlobalTracer.Instance;
             var path = context.Request.Path;
             if (Path.HasExtension(path))
             {
@@ -43,16 +44,15 @@ namespace Infrastructure.Jaeger
                 ISpanBuilder builder = null;
                 if (spanCtx != null)
                 {
-                    builder = tracer.BuildSpan("cwy中间件").AsChildOf(spanCtx);
+                    builder = tracer.BuildSpan(path).AsChildOf(spanCtx);
                 }
                 else
                 {
-                    builder = tracer.BuildSpan("cwy中间件");
+                    builder = tracer.BuildSpan(path);
                 }
                 //开始设置span
-                using (var scope = builder.StartActive(true))
+                using (var scope = builder.StartActive())
                 {
-                    scope.Span.SetOperationName(path);
                     //记录请求信息到span
                     if (this._options.CurrentValue.IsQuerySpan)
                     {

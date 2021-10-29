@@ -15,6 +15,10 @@ namespace Infrastructure.Configurations
         /// </summary>
         public int Port { get; set; }
         /// <summary>
+        /// 端点
+        /// </summary>
+        public string Endpoint { get; set; }
+        /// <summary>
         /// 最大传输大小
         /// </summary>
         public int MaxPacketSize { get; set; }

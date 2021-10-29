@@ -37,7 +37,7 @@ namespace Infrastructure.Consul
 
         public void GetService()
         {
-            var serviceNames = new List<string>() { "TestServiceB", "TestServiceC" };//调用的时候，按照服务名称去依次获取对应的地址
+            var serviceNames = new List<string>() { "TestServiceB", "TestServiceA" };//调用的时候，按照服务名称去依次获取对应的地址
             serviceNames.ForEach(f =>
             {
                 Task.Run(() =>

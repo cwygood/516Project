@@ -1,3 +1,3 @@
 window.API_URL={
-    mainUrl:"http://localhost:5100/api/"
+    mainUrl:"http://10.81.3.167:5100/api/"
 };

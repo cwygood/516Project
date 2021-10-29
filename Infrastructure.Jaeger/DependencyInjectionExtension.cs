@@ -29,30 +29,37 @@ public static partial class DependencyInjectionExtension
         services.AddOpenTracing();
         services.AddSingleton<ITracer>(provider =>
         {
-            var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
-            var reporter = new RemoteReporter.Builder().WithLoggerFactory(loggerFactory)
-                                                     //.WithSender(new UdpSender("localhost", 6831, 0))
-                                                     .WithSender(new HttpSender("http://localhost:14268/api/traces"))
-                                                     .Build();
-            var serviceName = Assembly.GetEntryAssembly().GetName().Name;
-            ITracer tracer = new Tracer.Builder(DateTime.Now.ToString("yyyyMMddHHmmssfff"))
-                                     .WithReporter(reporter)
-                                     .WithLoggerFactory(loggerFactory)
-                                     .WithSampler(new ConstSampler(true))
-                                     .Build();
+            string serviceName = services.BuildServiceProvider().GetRequiredService<IWebHostEnvironment>().ApplicationName;
+            
+            var loggerFactory = provider.GetRequiredService<Microsoft.Extensions.Logging.ILoggerFactory>();
+            Configuration.SenderConfiguration.DefaultSenderResolver = new SenderResolver(loggerFactory).RegisterSenderFactory<ThriftSenderFactory>();
+            var senderConfiguration = new Jaeger.Configuration.SenderConfiguration(loggerFactory);
+            if (!string.IsNullOrWhiteSpace(cfg.Endpoint))
+            {
+                senderConfiguration.WithEndpoint(cfg.Endpoint);
+            }
+            else
+            {
+                senderConfiguration.WithAgentHost(host).WithAgentPort(port);//该方法暂时无效，未找到原因，怀疑和linux的udp端口有关（todo）
+            }
+            
 
-            //var serviceName = provider.GetRequiredService<IWebHostEnvironment>().ApplicationName;
-            //var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
+            var samplerConfiguration = new Jaeger.Configuration.SamplerConfiguration(loggerFactory)
+                .WithType(ConstSampler.Type).WithParam(1);
+            var reporterConfiguration = new Jaeger.Configuration.ReporterConfiguration(loggerFactory)
+                .WithLogSpans(true)
+                .WithSender(senderConfiguration);
 
-            //Jaeger.Configuration.SenderConfiguration.DefaultSenderResolver = new SenderResolver(loggerFactory)
-            //    .RegisterSenderFactory<ThriftSenderFactory>();
+            ITracer tracer = tracer = new Jaeger.Configuration(serviceName, loggerFactory)
+                   .WithSampler(samplerConfiguration)
+                   .WithReporter(reporterConfiguration)
+                   .GetTracer();
 
-            //var tracer = new Tracer.Builder(serviceName)
-            //    .WithLoggerFactory(loggerFactory)
-            //    .WithSampler(new ConstSampler(true))
-            //    .Build();
+            if (!OpenTracing.Util.GlobalTracer.IsRegistered())
+            {
+                OpenTracing.Util.GlobalTracer.Register(tracer);
+            }
 
-            //GlobalTracer.Register(tracer);
 
             return tracer;
         });

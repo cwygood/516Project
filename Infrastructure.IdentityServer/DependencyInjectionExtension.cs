@@ -14,7 +14,7 @@ public static partial class DependencyInjectionExtension
         services.Configure<IdentityServerConfiguration>(section);
         var cfg = section.Get<IdentityServerConfiguration>();
         services.AddIdentityServer()
-                .AddDeveloperSigningCredential() //Identity Server4将创建一个开发人员签名密钥，该文件名为tempkey.rsa，只适合单机，生产环境使用AddSigningCredential()
+                .AddDeveloperSigningCredential() //Identity Server4将创建一个开发人员签名密钥，该文件名为tempkey.jwk，只适合单机，生产环境使用AddSigningCredential()
                 //.AddTestUsers(cfg.Users.ToList()) //测试专用用户
                 .AddInMemoryClients(cfg.Clients)
                 .AddInMemoryApiResources(cfg.ApiResources)

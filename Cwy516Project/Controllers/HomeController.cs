@@ -10,6 +10,7 @@ using Infrastructure.ElasticSearch;
 using Infrastructure.Kafka;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
@@ -19,8 +20,10 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Cwy516Project.Controllers
 {
@@ -37,6 +40,8 @@ namespace Cwy516Project.Controllers
         private readonly IESServer _esServer;
         private readonly IKafkaHelper _kafkaHelper;
         private readonly RabbitMqClient _rabbitMqClient;
+
+#if Linux
         public HomeController(ITest test, ILogger<HomeController> logger, IMediator mediator, IRedisCache cache, IMemoryCache memoryCache, IOptionsMonitor<ConsulConfiguration> options, IESServer eSServer,
             IKafkaHelper kafkaHelper, RabbitMqClient rabbitMqClient)
         {
@@ -50,7 +55,16 @@ namespace Cwy516Project.Controllers
             this._kafkaHelper = kafkaHelper;
             this._rabbitMqClient = rabbitMqClient;
         }
-
+#else
+        public HomeController(ITest test, ILogger<HomeController> logger, IMediator mediator, IRedisCache cache, IMemoryCache memoryCache)
+        {
+            this._test = test;
+            this._logger = logger;
+            this._mediator = mediator;
+            this._cache = cache;
+            this._memoryCache = memoryCache;
+        }
+#endif
         #region Test
         [HttpGet]
         public ActionResult<string> Index()
@@ -70,7 +84,21 @@ namespace Cwy516Project.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Get()
+        public string Get()
+        {
+            return "AAA";
+        }
+        [HttpPost]
+        public string PPP()
+        {
+            return "AAA";
+        }
+        /// <summary>
+        /// Consul服务调用
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult GetConsul()
         {
             return new JsonResult(new
             {
@@ -117,8 +145,13 @@ namespace Cwy516Project.Controllers
                 MyActionResult = val
             });
         }
+        [HttpPost]
+        public string UploadFile(string name, IFormFile file)
+        {
+            return "上传成功！";
+        }
 
-        #region ElasticSearch
+#region ElasticSearch
         [HttpGet]
         public async Task<IEnumerable<ESDocument>> ESLinqSearch()
         {
@@ -177,9 +210,9 @@ namespace Cwy516Project.Controllers
 
             return sss.Body;
         }
-        #endregion
+#endregion
 
-        #region Kafka
+#region Kafka
 
         [HttpPost]
         public async Task<string> PublishKafka(string topic, Test test)
@@ -193,9 +226,9 @@ namespace Cwy516Project.Controllers
             return await this._kafkaHelper.SubscribeAsync<Test>(topics);
         }
 
-        #endregion
+#endregion
 
-        #region RabbitMq集群
+#region RabbitMq集群
 
         [HttpPost]
         public void SendRabbitMq(string message)
@@ -208,9 +241,9 @@ namespace Cwy516Project.Controllers
             this._rabbitMqClient.GetMessage("rabbitmqTest", "20210818");
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
         /// <summary>
         /// 查询所有用户

@@ -164,7 +164,7 @@ namespace Cwy516Project
             {
                 app.UseMyIdentityServer();
             }
-
+            app.UseJaeger();
             app.UseRouting();
             app.UseCors("cors");
             //jwt»œ÷§

@@ -31,7 +31,7 @@ namespace Application.Commands.HomeCommands
             {
                 return await Task.FromResult(new GetAllUserResponseCommand() { Code = "1", IsSuccess = false, Messages = new List<string>() { "查询数据失败！" } });
             }
-            var res = await this._httpService.GetAsync("http://localhost:5100/api/Home/Index");
+            var res = await this._httpService.GetAsync("http://10.81.3.167:5100/api/Home/PPP");
             this._mqClient.PushMessage("user.test", userInfos, "516project");//rabbitmq使用
             return await Task.FromResult(new GetAllUserResponseCommand()
             {

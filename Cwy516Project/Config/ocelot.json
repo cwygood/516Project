@@ -54,18 +54,18 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5100",//ocelot网关运行的地址
+    "BaseUrl": "http://10.81.3.167:5100", //ocelot网关运行的地址
     "ServiceDiscoveryProvider": {
       "Scheme": "http",
-      "Host": "192.168.123.233",
+      "Host": "192.168.152.200",
       "Port": 8090,
-      "Type": "Consul"//nginx 转发
+      "Type": "Consul" //nginx 转发
     },
     "RateLimitOptions": {
       "DisableRateLimitHeaders": false, //否禁用X-Rate-Limit和Retry-After标头（请求达到上限时response header中的限制数和多少秒后能重试）
       "QuotaExceededMessage": "Too Many Request", //请求达到上限返回给客户端的信息
       "HttpStatusCode": "999", //请求达到上限返回给客户端的状态码
-      "ClientIdHead": "MyClientId"//自定义标识客户端的标头
+      "ClientIdHead": "MyClientId" //自定义标识客户端的标头
     }
   }
 }

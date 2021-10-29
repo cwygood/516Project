@@ -8,7 +8,7 @@ public static partial class DependencyInjectionExtension
 {
     public static IServiceCollection AddCustomerMq(this IServiceCollection services)
     {
-        services.AddHostedService<GetUserReceiveFromMq>();
+        //services.AddHostedService<GetUserReceiveFromMq>();
         //services.AddHostedService<ReceiveMq>();
         return services;
     }
