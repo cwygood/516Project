@@ -66,7 +66,12 @@ namespace Infrastructure.Common.Mq
                 this._logger.LogError(-1, ex, "RabbitMqClient Init Fail");
             }
         }
-
+        /// <summary>
+        /// 推送消息
+        /// </summary>
+        /// <param name="routeKey">队列名称</param>
+        /// <param name="message">消息内容</param>
+        /// <param name="exchangeName"></param>
         public virtual void PushMessage(string routeKey, object message, string exchangeName)
         {
             this._logger.LogInformation($"PushMessage routeKey:{routeKey}");

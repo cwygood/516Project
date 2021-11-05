@@ -42,6 +42,7 @@
     <ProjectReference Include="..\Infrastructure.Dapper\Infrastructure.Dapper.csproj" />
     <ProjectReference Include="..\Infrastructure.ElasticSearch\Infrastructure.ElasticSearch.csproj" />
     <ProjectReference Include="..\Infrastructure.EntityFrameworkCore\Infrastructure.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Infrastructure.EventBus\Infrastructure.EventBus.csproj" />
     <ProjectReference Include="..\Infrastructure.IdentityServer\Infrastructure.IdentityServer.csproj" />
     <ProjectReference Include="..\Infrastructure.Jaeger\Infrastructure.Jaeger.csproj" />
     <ProjectReference Include="..\Infrastructure.Kafka\Infrastructure.Kafka.csproj" />
@@ -49,6 +50,7 @@
     <ProjectReference Include="..\Infrastructure.MyOrm\Infrastructure.MyOrm.csproj" />
     <ProjectReference Include="..\Infrastructure.Ocelot\Infrastructure.Ocelot.csproj" />
     <ProjectReference Include="..\Infrastructure.Polly\Infrastructure.Polly.csproj" />
+    <ProjectReference Include="..\Infrastructure.Quartz\Infrastructure.Quartz.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -62,6 +64,9 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Update="Config\eventbus.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Config\ocelot.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -69,6 +74,9 @@
 
   <ItemGroup>
     <None Update="Config\log4net.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="quartz.properties">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

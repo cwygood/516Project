@@ -39,7 +39,7 @@ namespace Infrastructure.Repositories
 
         public bool AddUser(User_Info userInfo)
         {
-            return this.Excute<User_Info>(@" insert into user_info(id,code,name,password,status) 
+            return this.Excute(@" insert into user_info(id,code,name,password,status) 
                                             values(@id,@code,@name,@password,@status)",
                                             new
                                             {

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Quartz.Spi;
 using RichardSzalay.MockHttp;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace Cwy516TestProject
     public class CustomTestFixture : WebApplicationFactory<Startup>
     {
         public MockHttpMessageHandler handler { get; set; }
+        public IJobFactory jobFactory { get; set; }
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.UseEnvironment("Dev");
@@ -26,10 +28,12 @@ namespace Cwy516TestProject
             {
                 services.RemoveAll(typeof(HttpClient));
                 var config = services.BuildServiceProvider().GetService<IConfiguration>();
+                jobFactory = services.BuildServiceProvider().GetService<IJobFactory>();
                 
                 var section = config.GetSection("Polly");
                 services.AddPollyHttpClient(section, () => handler);
 
+                services.AddQuartz();
             });
         }
 

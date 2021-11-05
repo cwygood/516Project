@@ -22,7 +22,7 @@ namespace Infrastructure.MyOrm
         }
 
         [Obsolete]
-        public bool Excute<T>(string sql, object param)
+        public bool Excute(string sql, object param)
         {
             throw new NotImplementedException();
         }

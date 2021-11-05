@@ -7,7 +7,9 @@ using Infrastructure.Common.Mq;
 using Infrastructure.Common.Tools;
 using Infrastructure.Configurations;
 using Infrastructure.ElasticSearch;
+using Infrastructure.Jaeger;
 using Infrastructure.Kafka;
+using Infrastructure.Quartz;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -39,11 +41,13 @@ namespace Cwy516Project.Controllers
         private readonly IOptionsMonitor<ConsulConfiguration> _options;
         private readonly IESServer _esServer;
         private readonly IKafkaHelper _kafkaHelper;
+        private readonly IEventFactory _eventFactory;
         private readonly RabbitMqClient _rabbitMqClient;
+        private readonly TaskPoolManager _taskPoolManage;
 
 #if Linux
         public HomeController(ITest test, ILogger<HomeController> logger, IMediator mediator, IRedisCache cache, IMemoryCache memoryCache, IOptionsMonitor<ConsulConfiguration> options, IESServer eSServer,
-            IKafkaHelper kafkaHelper, RabbitMqClient rabbitMqClient)
+            IKafkaHelper kafkaHelper, RabbitMqClient rabbitMqClient, TaskPoolManager taskPoolManager, IEventFactory eventFactory)
         {
             this._test = test;
             this._logger = logger;
@@ -54,15 +58,18 @@ namespace Cwy516Project.Controllers
             this._esServer = eSServer;
             this._kafkaHelper = kafkaHelper;
             this._rabbitMqClient = rabbitMqClient;
+            this._taskPoolManage = taskPoolManager;
+            this._eventFactory = eventFactory;
         }
 #else
-        public HomeController(ITest test, ILogger<HomeController> logger, IMediator mediator, IRedisCache cache, IMemoryCache memoryCache)
+        public HomeController(ITest test, ILogger<HomeController> logger, IMediator mediator, IRedisCache cache, IMemoryCache memoryCache, TaskPoolManager taskPoolManager)
         {
             this._test = test;
             this._logger = logger;
             this._mediator = mediator;
             this._cache = cache;
             this._memoryCache = memoryCache;
+            this._taskPoolManage = taskPoolManager;
         }
 #endif
         #region Test
@@ -84,13 +91,39 @@ namespace Cwy516Project.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public string Get()
+        public async Task<string> Get()
         {
+            var tracer = new MyTracer("/MyTracer");
+            //tracer.SetOperationName("GetMyOperation");
+            tracer.SetTag("First", "11111111111111");
+            tracer.SetTag("Second", "22222222222222222");
+            tracer.Dispose();//必须销毁才能上报span，否则不会记录到jaeger中
             return "AAA";
+        }
+        /// <summary>
+        /// 事件总线
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task EventBus()
+        {
+            await _taskPoolManage.SchedulerJob("ttt", "fff", "0/5 * * * * ?");
+            await _taskPoolManage.SchedulerJob("111", "kkk", "0/6 * * * * ?");
+            await _taskPoolManage.SchedulerJob("EventBus", "ssss", "0/7 * * * * ?");
         }
         [HttpPost]
         public string PPP()
         {
+            this._eventFactory.AddEvents(new List<Domain.Models.EventLog>()
+            {
+                new Domain.Models.EventLog()
+                {
+                    EventStatus=Domain.Enums.EventStatus.UnPublished,
+                    Content="Test",
+                    CreateTime=DateTime.Now,
+                    SendCount=10
+                }
+            });
             return "AAA";
         }
         /// <summary>

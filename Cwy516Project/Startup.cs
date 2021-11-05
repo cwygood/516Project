@@ -139,6 +139,8 @@ namespace Cwy516Project
             services.AddMyOcelot();
             services.AddElasticSearch(Configuration.GetSection("ElasticSearch"));
             services.AddKafka(Configuration.GetSection("Kafka"));
+            services.AddQuartz();
+            services.AddEventBus(Configuration.GetSection("EventBus"));
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

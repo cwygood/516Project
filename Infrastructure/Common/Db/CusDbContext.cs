@@ -54,9 +54,9 @@ namespace Infrastructure.Common.Db
             return this.DbHelper.QueryAll<T>(sql, param).FirstOrDefault();
         }
 
-        protected bool Excute<T>(string sql,object param)
+        protected bool Excute(string sql,object param)
         {
-            return this.DbHelper.Excute<T>(sql, param);
+            return this.DbHelper.Excute(sql, param);
         }
         protected void AddMongoDb<T>(T t) where T : class
         {

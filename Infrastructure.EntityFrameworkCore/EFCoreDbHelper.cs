@@ -58,7 +58,7 @@ namespace Infrastructure.EntityFrameworkCore
             throw new NotImplementedException();
         }
         [Obsolete]
-        public bool Excute<T>(string sql, object param)
+        public bool Excute(string sql, object param)
         {
             throw new NotImplementedException();
         }

@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cwy516Project\Cwy516Project.csproj" />
+    <ProjectReference Include="..\Infrastructure.Quartz\Infrastructure.Quartz.csproj" />
   </ItemGroup>
 
 </Project>

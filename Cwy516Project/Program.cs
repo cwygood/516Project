@@ -36,6 +36,7 @@ namespace Cwy516Project
                 .AddJsonFile("Config/identityserver.json",false,true)
                 .AddJsonFile("Config/elasticsearch.json",false,true)
                 .AddJsonFile("Config/kafka.json",false,true)
+                .AddJsonFile("Config/eventbus.json",false,true)
                 .AddJsonFile("Config/mysql.json", false, true);//optional:缺失不报错，reloadonchange:修改了之后重新加载
             })
             .ConfigureLogging((context, builder) =>

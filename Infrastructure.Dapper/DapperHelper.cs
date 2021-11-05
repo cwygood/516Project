@@ -52,7 +52,7 @@ namespace Infrastructure.Dapper
             return this._context.ReadDbConnection().QueryFirstOrDefault<T>(sql, param);
         }
         
-        public bool Excute<T>(string sql, object param)
+        public bool Excute(string sql, object param)
         {
             return this._context.DbConnection().Execute(sql, param) > 0;
         }

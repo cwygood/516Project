@@ -63,6 +63,7 @@ public static partial class DependencyInjectionExtension
 
             return tracer;
         });
+        
         return services;
     }
 
