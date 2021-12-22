@@ -38,12 +38,13 @@ namespace Cwy516Project.Controllers
         private readonly IMediator _mediator;
         private readonly IRedisCache _cache;
         private readonly IMemoryCache _memoryCache;
+        private readonly TaskPoolManager _taskPoolManage;
+
         private readonly IOptionsMonitor<ConsulConfiguration> _options;
         private readonly IESServer _esServer;
         private readonly IKafkaHelper _kafkaHelper;
         private readonly IEventFactory _eventFactory;
         private readonly RabbitMqClient _rabbitMqClient;
-        private readonly TaskPoolManager _taskPoolManage;
 
 #if Linux
         public HomeController(ITest test, ILogger<HomeController> logger, IMediator mediator, IRedisCache cache, IMemoryCache memoryCache, IOptionsMonitor<ConsulConfiguration> options, IESServer eSServer,

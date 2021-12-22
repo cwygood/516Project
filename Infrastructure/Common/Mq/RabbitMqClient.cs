@@ -69,7 +69,7 @@ namespace Infrastructure.Common.Mq
         /// <summary>
         /// 推送消息
         /// </summary>
-        /// <param name="routeKey">队列名称</param>
+        /// <param name="routeKey"></param>
         /// <param name="message">消息内容</param>
         /// <param name="exchangeName"></param>
         public virtual void PushMessage(string routeKey, object message, string exchangeName)
@@ -77,7 +77,7 @@ namespace Infrastructure.Common.Mq
             this._logger.LogInformation($"PushMessage routeKey:{routeKey}");
             this._sendChannel.ExchangeDeclare(exchange: exchangeName, type: "topic");
             //this._channel.QueueDeclare(
-            //    queue: routeKey,//队列名称
+            //    queue: routeKey,//是exchange知道exchange应该发到哪个队列上
             //    durable: false,//是否持久化，保存到磁盘
             //    exclusive: false,//设置是否排他。true排他的。如果一个队列声明为排他队列，该队列仅对首次声明它的连接可见，并在连接断开时自动删除。
             //    /*

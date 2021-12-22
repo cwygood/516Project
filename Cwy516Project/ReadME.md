@@ -17,7 +17,7 @@
 ** 集成Nginx+Ocelot+Consul
 ** 集成CI/CD环境，Jenkins+Harbor+Natapp
 ** 配置docker启动
-** 配置Docker-compose.yml，批量启动所需的组件（cwy516project+consul+nginx+redis）(todo:ocelot+mongodb+mysql)
+** 配置Docker-compose.yml，批量启动所需的组件（cwy516project+consul+nginx+redis）(todo:mongodb)
 ** 集成ElasticSearch
 ** 集成Kafka消息队列
 ** 集成Elasticsearch+Logstash+Kibana(ELK日志系统)(Filebeat+Kafka)
@@ -32,6 +32,10 @@
 ** 集成Mongodb集群（todo）
 ** 了解Socket通信（todo）
 ** 集成CAP分布式事务框架（todo）
+** 集成云原生（todo)
+** 熟悉并精通EF core(todo)
+** 探索ServiceStack（todo)
+** 了解MEF注入的方式(todo)
  
 ** 源码解读（Swagger，MediatR，MongoDB，StackExchange.Redis，JWT，IdentityServer4）
 ** 源码解读（aspnetcore 3.1 todo)

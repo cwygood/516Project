@@ -27,5 +27,9 @@ namespace Infrastructure.EntityFrameworkCore
             modelBuilder.Entity<User_Info>().ToTable("user_info");
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder builder)
+        {
+            Console.WriteLine(DbLoggerCategory.Database.Name);
+        }
     }
 }

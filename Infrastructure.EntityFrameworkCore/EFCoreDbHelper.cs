@@ -42,6 +42,8 @@ namespace Infrastructure.EntityFrameworkCore
             }
             return entitys.FirstOrDefault();
         }
+
+        #region 忽略
         [Obsolete]
         public IEnumerable<T> QueryAll<T>(string sql)
         {
@@ -62,6 +64,8 @@ namespace Infrastructure.EntityFrameworkCore
         {
             throw new NotImplementedException();
         }
+        #endregion
+
         public void Add<T>(T t) where T : class
         {
             this._context.Add(t);

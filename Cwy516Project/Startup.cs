@@ -130,17 +130,20 @@ namespace Cwy516Project
             }
             services.AddSnowFlake();//—©ª®À„∑®
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddPollyHttpClient(Configuration.GetSection("Polly"));
+            services.AddQuartz();
+
+#if Linux
             services.AddRabbitMq(Configuration.GetSection("RabbitMq"));
             services.AddCustomerMq();
-            services.AddPollyHttpClient(Configuration.GetSection("Polly"));
             services.AddMongoDB(Configuration.GetSection("MongoDB"));
             services.AddJaeger(Configuration.GetSection("Jaeger"));
             services.AddConsul(Configuration.GetSection("Consul"));
             services.AddMyOcelot();
             services.AddElasticSearch(Configuration.GetSection("ElasticSearch"));
             services.AddKafka(Configuration.GetSection("Kafka"));
-            services.AddQuartz();
             services.AddEventBus(Configuration.GetSection("EventBus"));
+#endif
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -177,8 +180,10 @@ namespace Cwy516Project
             {
                 endpoints.MapControllers();
             });
+#if Linux
             app.UseConsul(Configuration.GetSection("Consul"), lifetime, Configuration);
             app.UseMyOcelot();
+#endif
         }
     }
 }
